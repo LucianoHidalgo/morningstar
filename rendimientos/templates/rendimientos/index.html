@@ -1,0 +1,10 @@
+
+{% if lista_de_carreras %}
+    <ul>
+    {% for carrera in lista_de_carreras %}
+        <li><a href="{% url 'detalle' carrera.cod_carrera %}"> {{ carrera.nom_carrera }} </a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No existen carreras en la base de datos.</p>
+{% endif %}
