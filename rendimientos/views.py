@@ -7,7 +7,7 @@ from django.http import Http404
 from .models import Carrera
 
 def index(request):
-	lista_de_carreras = Carrera.objects.order_by('cod_carrera')
+	lista_de_carreras = Carrera.objects.order_by('codigo')
 
 	contenido = {
 		'lista_de_carreras': lista_de_carreras,
@@ -22,11 +22,11 @@ def rendimientoCarrera(request, cod_carrera):
 	return render(request,'rendimientos/detalle.html', {'carrera': carrera})
 
 '''
-def rendimientoCarrera(request, cod_carrera):
+def rendimientoCarrera(request, codigo):
 	try:
-		carrera = Carrera.objects.get(pk=cod_carrera)
-		print(carrera.nom_carrera)
+		carreraActual = Carrera.objects.get(pk=codigo)
+		print(carreraActual.nombre)
 	except Carrera.DoesNotExist :
 		raise Http404("La carrera desea no existe")
-	return render(request,'rendimientos/detalle.html', {'carrera': carrera})
+	return render(request,'rendimientos/detalle.html', {'carrera': carreraActual})
 

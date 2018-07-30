@@ -1,45 +1,105 @@
+# This is an auto-generated Django model module.
+# You'll have to do the following manually to clean this up:
+#   * Rearrange models' order
+#   * Make sure each model has one field with primary_key=True
+#   * Make sure each ForeignKey has `on_delete` set to the desired behavior.
+#   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
+# Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
 
-# Create your models here.
-class Carrera(models.Model) :
-	TIPOS = (
-		('CIVIL', 'CIVIL'),
-		('EJECUCION', 'EJECUCION'),
-		('5 AÑOS', '5 AÑOS'),
-		)
-	cod_carrera = models.PositiveIntegerField(primary_key=True,
-					verbose_name="Codigo de carrera en sistema",
-					)
-	nom_carrera = models.CharField(max_length=50,
-					verbose_name="Nombre de la carrera"
-		)
-	tipo_carrera = models.CharField(max_length=10, 
-					choices=TIPOS,
-					verbose_name="Tipo de carrera"
-					)
-
-
-class Semestre(models.Model) :
-	num_semestre = models.PositiveIntegerField(
-					verbose_name="Numero del semestre"
-					)
-	anio_semestre = models.PositiveIntegerField(
-					verbose_name="Anio"
-					)
 
 class Asignatura(models.Model):
-	cod_asignatura = models.PositiveIntegerField(primary_key=True,
-					verbose_name ="Codigo de la asignatura"
-					)
-	nom_asignatura = models.CharField(max_length=100,
-					verbose_name="Nombre de la asignatura"
-					)
+    codigo = models.IntegerField(primary_key=True)
+    nombre = models.CharField(max_length=50)
 
-class Rendimiento(models.Model):
-	cod_asignatura = models.PositiveIntegerField()
-	num_semestre = models.PositiveIntegerField()
-	anio_semestre = models.PositiveIntegerField()
-	promedio_rendimiento = models.DecimalField(max_digits=4, decimal_places=2)
-	aprobados_rendimiento = models.PositiveIntegerField()
-	reprobados_rendimiento = models.PositiveIntegerField()
+    class Meta:
+        managed = False
+        db_table = 'asignatura'
 
+
+class Carrera(models.Model):
+    codigo = models.IntegerField(primary_key=True)
+    nombre = models.CharField(max_length=50)
+    id_tipo = models.IntegerField()
+
+    class Meta:
+        managed = False
+        db_table = 'carrera'
+
+
+class CarreraAsignatura(models.Model):
+    codigo_carrera = models.ForeignKey(Carrera, models.DO_NOTHING, db_column='codigo_carrera', primary_key=True)
+    codigo_asignatura = models.ForeignKey(Asignatura, models.DO_NOTHING, db_column='codigo_asignatura')
+
+    class Meta:
+        managed = False
+        db_table = 'carrera_asignatura'
+        unique_together = (('codigo_carrera', 'codigo_asignatura'),)
+
+
+class Estudiante(models.Model):
+    rut = models.CharField(primary_key=True, max_length=10)
+    paterno = models.CharField(max_length=50)
+    materno = models.CharField(max_length=50)
+    nombres = models.CharField(max_length=100)
+    correo = models.CharField(max_length=50, blank=True, null=True)
+    fono = models.CharField(max_length=10, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'estudiante'
+
+
+class Profesor(models.Model):
+    rut = models.CharField(primary_key=True, max_length=10)
+    paterno = models.CharField(max_length=50)
+    materno = models.CharField(max_length=50)
+    nombres = models.CharField(max_length=100)
+    correo = models.CharField(max_length=50, blank=True, null=True)
+    fono = models.CharField(max_length=10, blank=True, null=True)
+    vigente = models.NullBooleanField()
+
+    class Meta:
+        managed = False
+        db_table = 'profesor'
+
+
+class Seccion(models.Model):
+    codigo_asignatura = models.ForeignKey(Asignatura, models.DO_NOTHING, db_column='codigo_asignatura', blank=True, null=True)
+    semestre = models.IntegerField()
+    anio = models.IntegerField()
+    electividad = models.IntegerField()
+    letra = models.CharField(max_length=1)
+    numero = models.IntegerField()
+
+    class Meta:
+        managed = False
+        db_table = 'seccion'
+        unique_together = (('codigo_asignatura', 'anio', 'semestre', 'electividad', 'letra', 'numero'),)
+
+
+class SeccionEstudiante(models.Model):
+    id_seccion = models.ForeignKey(Seccion, models.DO_NOTHING, db_column='id_seccion', primary_key=True)
+    rut_estudiante = models.ForeignKey(Estudiante, models.DO_NOTHING, db_column='rut_estudiante')
+    nota_teoria = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    nota_laboratorio = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    nota_final = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    situacion_final = models.CharField(max_length=10, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'seccion_estudiante'
+        unique_together = (('id_seccion', 'rut_estudiante'),)
+
+
+class SeccionProfesor(models.Model):
+    id_seccion = models.ForeignKey(Seccion, models.DO_NOTHING, db_column='id_seccion', primary_key=True)
+    rut_profesor = models.ForeignKey(Profesor, models.DO_NOTHING, db_column='rut_profesor')
+    teoria = models.NullBooleanField()
+    ejercicios = models.NullBooleanField()
+    laboratorio = models.NullBooleanField()
+
+    class Meta:
+        managed = False
+        db_table = 'seccion_profesor'
+        unique_together = (('id_seccion', 'rut_profesor'),)

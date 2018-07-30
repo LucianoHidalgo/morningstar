@@ -1,10 +1,29 @@
+{% extends "rendimientos/header.html" %}
+
+{% block content %}
 
 {% if lista_de_carreras %}
-    <ul>
-    {% for carrera in lista_de_carreras %}
-        <li><a href="{% url 'detalle' carrera.cod_carrera %}"> {{ carrera.nom_carrera }} </a></li>
-    {% endfor %}
-    </ul>
+	<div class="container-fluid">
+		<!--Inicio de tabla-->
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th scope="col"> Código </th>
+					<th scope="col">Nombre </th>
+				</tr>
+			</thead>
+			<tbody>
+	    	{% for carrera in lista_de_carreras %}
+	    		<tr>
+	    			<th scope "row"> {{carrera.codigo}} </th>
+	        		<th><a href="{% url 'detalle' carrera.codigo %}"> {{ carrera.nombre }} </a></th>
+	        	</tr>
+	    	{% endfor %}
+	    	</tbody>
+		</table>
+	</div>
 {% else %}
     <p>No existen carreras en la base de datos.</p>
 {% endif %}
+
+{% endblock %}
