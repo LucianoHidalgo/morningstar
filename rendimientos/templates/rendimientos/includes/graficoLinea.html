@@ -1,0 +1,74 @@
+<script>
+{% block jquery%}
+
+var seriesName = {{ carrera.codigo | safe }};
+
+var config = {
+			type: 'line',
+			data: {
+
+				labels: {{labels | safe }} ,
+				datasets: [{
+					label: seriesName,
+					fill: false,
+					backgroundColor: window.chartColors.blue,
+					borderColor: window.chartColors.blue,
+					data: {{data | safe}},
+				}
+				]
+			},
+			options: {
+				responsive: true,
+				title: {
+					display: true,
+					text: 'Chart.js Line Chart'
+				},
+				tooltips: {
+					mode: 'index',
+					intersect: false,
+				},
+				hover: {
+					mode: 'nearest',
+					intersect: true
+				},
+				scales: {
+					xAxes: [{
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: 'Semestre'
+						}
+					}],
+					yAxes: [{
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: 'Promedio'
+						}
+					}]
+				}
+			}
+		};
+
+		window.onload = function() {
+			var ctx = document.getElementById('canvas').getContext('2d');
+			window.myLine = new Chart(ctx, config);
+		};
+
+{% endblock%}
+
+</script>
+
+{% block content %}
+
+
+	<div class="container-fluid">
+		<canvas id="canvas"></canvas>
+	</div>
+
+
+
+{% endblock %}	
+
+
+

@@ -1,0 +1,44 @@
+{% block content %}
+
+<div class="container-fluid ">
+	
+	<table class="table table-sm table-hover">
+			<thead class="text-center">
+				<tr class="table-secondary">
+					<th scope="col"> Año </th>
+					<th scope="col"> Semestre </th>
+					<th scope="col"> Promedio </th>
+					<th scope="col"> Aprobados </th>
+					<th scope="col"> Reprobados </th>
+				</tr>
+			</thead>
+			<tbody class="text-center">
+	    	{% for fila in rendimientos %}
+	    		<tr>
+	    			<td > {{fila.anio}} </td>
+	    			<td > {{fila.semestre}} </td>
+	    			{% if fila.promedio > 3.95 %}
+	    			<td  >
+	    				<p class="text-primary">
+	    				 {{fila.promedio}}  
+	    				</p>
+	    			</td>
+	    			{% else %}
+	   	    		<td>
+	    				<p class="text-danger">
+	    				 {{fila.promedio}}  
+	    				</p>
+	    			</td>
+
+	    			{% endif %}
+	    			<td class="red-text"> {{fila.aprobados}} </td>
+	    			<td > {{fila.reprobados}} </td>
+	        	</tr>
+	    	{% endfor %}
+	    	<!-- Agregar aquí una fila de totales!!!! -->
+	    	</tbody>
+		</table>
+
+</div>
+
+{% endblock %}	

@@ -19,8 +19,8 @@ class Asignatura(models.Model):
 
 class Carrera(models.Model):
     codigo = models.IntegerField(primary_key=True)
-    nombre = models.CharField(max_length=50)
-    id_tipo = models.IntegerField()
+    nombre = models.CharField(max_length=100)
+    id_tipo = models.ForeignKey('TipoCarrera', models.DO_NOTHING, db_column='id_tipo', blank=True, null=True)
 
     class Meta:
         managed = False
@@ -64,6 +64,25 @@ class Profesor(models.Model):
         db_table = 'profesor'
 
 
+class RendimientoCarrera(models.Model):
+    codigo_carrera = models.IntegerField(primary_key=True)
+    codigo_asignatura = models.IntegerField()
+    semestre = models.IntegerField()
+    anio = models.IntegerField()
+    semestre_etiqueta = models.CharField(max_length=20, blank=True, null=True)
+    promedio = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    promedio_aprobados = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    promedio_reprobados = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    aprobados = models.IntegerField(blank=True, null=True)
+    reprobados = models.IntegerField(blank=True, null=True)
+    inscritos = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'rendimiento_carrera'
+        unique_together = (('codigo_carrera', 'codigo_asignatura', 'semestre', 'anio'),)
+
+
 class Seccion(models.Model):
     codigo_asignatura = models.ForeignKey(Asignatura, models.DO_NOTHING, db_column='codigo_asignatura', blank=True, null=True)
     semestre = models.IntegerField()
@@ -103,3 +122,12 @@ class SeccionProfesor(models.Model):
         managed = False
         db_table = 'seccion_profesor'
         unique_together = (('id_seccion', 'rut_profesor'),)
+
+
+class TipoCarrera(models.Model):
+    nombre = models.CharField(max_length=30)
+    nombre_corto = models.CharField(max_length=15)
+
+    class Meta:
+        managed = False
+        db_table = 'tipo_carrera'

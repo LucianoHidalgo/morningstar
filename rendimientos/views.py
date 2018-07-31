@@ -3,8 +3,10 @@ from django.shortcuts import render, get_object_or_404
 # Create your views here.
 from django.http import Http404
 
+from .utilities import obtenerDatosGraficoPromedio
 
-from .models import Carrera
+
+from .models import Carrera, RendimientoCarrera
 
 def index(request):
 	lista_de_carreras = Carrera.objects.order_by('codigo')
@@ -24,9 +26,22 @@ def rendimientoCarrera(request, cod_carrera):
 '''
 def rendimientoCarrera(request, codigo):
 	try:
+		# Obtengo los datos de la carrera
 		carreraActual = Carrera.objects.get(pk=codigo)
-		print(carreraActual.nombre)
+		# Obtengo los rendimientos de la carrera
+		rendimientos = RendimientoCarrera.objects.filter(codigo_carrera=codigo)
+		# Obtengo los rendimientos de la asignatura para la carrera en particular 
+		# Hardcodeado a la 10110 hasta ahora
+		rendimientos = rendimientos.filter(codigo_asignatura=10110)
+		
+		data = obtenerDatosGraficoPromedio(rendimientos)
+		dictData = {'carrera': carreraActual, 
+			'rendimientos': rendimientos, 
+			'labels' : data[0],
+			'data': data[1]
+			 }
+
 	except Carrera.DoesNotExist :
 		raise Http404("La carrera desea no existe")
-	return render(request,'rendimientos/detalle.html', {'carrera': carreraActual})
+	return render(request,'rendimientos/detalle.html', dictData)
 
