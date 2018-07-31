@@ -1,0 +1,17 @@
+{% extends "rendimientos/headerGraficos.html" %}
+
+{% block content %}
+	<div class="container-fluid">
+
+		<h2>{{ carrera.nombre }} </h2>
+		<div class="row">
+				
+				<div class="col-lg-8">
+					{% include 'rendimientos/includes/graficoLinea.html' %}
+				</div>
+				<div class="col-lg-4">
+					{% include 'rendimientos/includes/tablaRendimientos.html' %}
+				</div>
+		</div>
+	</div>
+{% endblock %}
