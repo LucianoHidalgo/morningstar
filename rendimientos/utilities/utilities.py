@@ -3,9 +3,12 @@ def obtenerDatosGraficoPromedio(querySet):
 	xlabels = []
 
 	for elemento in querySet :
-		if elemento.semestre in [1,2] :
+		
+		if elemento.semestre_etiqueta is not None :
+			val = str(elemento.anio) + "-" + elemento.semestre_etiqueta
+		else :
 			val = str(elemento.anio) + "-" + str(elemento.semestre)
-			xlabels.append(val)
-			promedio.append(float(elemento.promedio))
+		xlabels.append(val)
+		promedio.append(float(elemento.promedio))
 	return [xlabels, promedio]
 

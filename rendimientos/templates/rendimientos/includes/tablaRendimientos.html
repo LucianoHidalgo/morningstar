@@ -16,7 +16,12 @@
 	    	{% for fila in rendimientos %}
 	    		<tr>
 	    			<td > {{fila.anio}} </td>
-	    			<td > {{fila.semestre}} </td>
+
+					{% if fila.semestre_etiqueta is not None  %}
+	    				<td > {{fila.semestre_etiqueta}} </td>
+					{% else %}
+						<td > {{fila.semestre}} </td>
+					{% endif %}
 	    			{% if fila.promedio > 3.95 %}
 	    			<td  >
 	    				<p class="text-primary">
