@@ -5,7 +5,6 @@ from django.http import Http404
 
 from .utilities import obtenerDatosGraficoPromedio
 
-
 from .models import Carrera, RendimientoCarrera
 
 def index(request):
