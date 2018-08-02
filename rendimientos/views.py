@@ -17,14 +17,17 @@ def index(request):
 
 
 
-def rendimientoCarrera(request, codigo):
+def rendimientoCarrera(request, codigo, soloregulares):
 	
 	# Obtengo los datos de la carrera
 	carreraActual = Carrera.objects.get(pk=codigo)
 	#Obtengo los datos requeridos para la vista 
 	# 10110 está hardcodeado por ahora y 
 	# (True indica que se muestran los cursos de "Verano/Invierno")
-	datosVista = obtenerDatosVistaRendimiento(codigo,10110, True)
+	if soloregulares :
+		datosVista = obtenerDatosVistaRendimiento(codigo,10110, False)
+	else :
+		datosVista = obtenerDatosVistaRendimiento(codigo,10110, True)
 	listaCarreras = obtenerCarreras()
 	dictData = {'carrera': carreraActual, 
 		'rendimientos': datosVista['rendimientos'], 

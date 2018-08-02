@@ -3,18 +3,33 @@
 {% block content %}
 
 
-		{% block dropdown%}
-			{% include 'rendimientos/includes/dropdownCarreras.html' %}
-		{% endblock%}
-		<hr class="col-xs-12">
-		<div class="row">
-				
-				<div class="col-md-7">
-					{% include 'rendimientos/includes/graficoLinea.html' %}
-				</div>
-				<div class="col-md-5 ">
-					{% include 'rendimientos/includes/tablaRendimientos.html' %}
-				</div>
+	<div class="row">
+		<div class="col-md-9">
+			{% block dropdown%}
+				{% include 'rendimientos/includes/dropdownCarreras.html' %}
+			{% endblock%}
 		</div>
+		<div class="col-md-3">
+
+			<a href="{% url 'detallefiltrado' carrera.codigo  %}" class="text-md-right">
+				<p class="text-primary" style="font-size:24px; vertical-align: middle;">
+					Filtrar  
+				</p>
+			</a>
+		</div>
+	</div>
+		
+
+	<div class="row">
+			
+		<div class="col-md-7">
+
+			{% include 'rendimientos/includes/graficoLinea.html' %}
+		</div>
+		<div class="col-md-5 ">
+			
+			{% include 'rendimientos/includes/tablaRendimientos.html' %}
+		</div>
+	</div>
 
 {% endblock %}
