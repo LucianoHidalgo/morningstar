@@ -3,7 +3,9 @@
 {% block content %}
 
 
-		<h2>{{ carrera.nombre }} </h2>
+		{% block dropdown%}
+			{% include 'rendimientos/includes/dropdownCarreras.html' %}
+		{% endblock%}
 		<hr class="col-xs-12">
 		<div class="row">
 				

@@ -1,29 +1,11 @@
-{% extends "rendimientos/header.html" %}
+{% extends 'rendimientos/base.html' %}
+{% block title %}
+    Asignatura
+{% endblock%}
 
-{% block content %}
-
-{% if lista_de_carreras %}
-	<div class="container-fluid">
-		<!--Inicio de tabla-->
-		<table class="table table-striped">
-			<thead>
-				<tr>
-					<th scope="col"> Código </th>
-					<th scope="col">Nombre </th>
-				</tr>
-			</thead>
-			<tbody>
-	    	{% for carrera in lista_de_carreras %}
-	    		<tr>
-	    			<th scope "row"> {{carrera.codigo}} </th>
-	        		<th><a href="{% url 'detalle' carrera.codigo %}"> {{ carrera.nombre }} </a></th>
-	        	</tr>
-	    	{% endfor %}
-	    	</tbody>
-		</table>
-	</div>
-{% else %}
-    <p>No existen carreras en la base de datos.</p>
-{% endif %}
-
-{% endblock %}
+{%block content %}
+	{% block dropdown%}
+			{% include 'rendimientos/includes/dropdownCarreras.html' %}
+	{% endblock%}
+    
+{%endblock%}
