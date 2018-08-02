@@ -16,11 +16,19 @@ class Asignatura(models.Model):
         managed = False
         db_table = 'asignatura'
 
+class TipoCarrera(models.Model):
+
+    nombre = models.CharField(max_length=30)
+    nombre_corto = models.CharField(max_length=15)
+
+    class Meta:
+        managed = False
+        db_table = 'tipo_carrera'
 
 class Carrera(models.Model):
     codigo = models.IntegerField(primary_key=True)
     nombre = models.CharField(max_length=100)
-    id_tipo = models.ForeignKey('TipoCarrera', models.DO_NOTHING, db_column='id_tipo', blank=True, null=True)
+    id_tipo = models.ForeignKey(TipoCarrera, models.DO_NOTHING, db_column='id_tipo', blank=True, null=True)
 
     class Meta:
         managed = False
@@ -70,9 +78,9 @@ class RendimientoCarrera(models.Model):
     semestre = models.IntegerField()
     anio = models.IntegerField()
     semestre_etiqueta = models.CharField(max_length=20, blank=True, null=True)
-    promedio = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
-    promedio_aprobados = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
-    promedio_reprobados = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    promedio = models.DecimalField(max_digits=10, decimal_places=15, blank=True, null=True)
+    promedio_aprobados = models.DecimalField(max_digits=10, decimal_places=15, blank=True, null=True)
+    promedio_reprobados = models.DecimalField(max_digits=10, decimal_places=15, blank=True, null=True)
     aprobados = models.IntegerField(blank=True, null=True)
     reprobados = models.IntegerField(blank=True, null=True)
     inscritos = models.IntegerField(blank=True, null=True)
@@ -100,9 +108,9 @@ class Seccion(models.Model):
 class SeccionEstudiante(models.Model):
     id_seccion = models.ForeignKey(Seccion, models.DO_NOTHING, db_column='id_seccion', primary_key=True)
     rut_estudiante = models.ForeignKey(Estudiante, models.DO_NOTHING, db_column='rut_estudiante')
-    nota_teoria = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
-    nota_laboratorio = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
-    nota_final = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    nota_teoria = models.DecimalField(max_digits=10, decimal_places=15, blank=True, null=True)
+    nota_laboratorio = models.DecimalField(max_digits=10, decimal_places=15, blank=True, null=True)
+    nota_final = models.DecimalField(max_digits=10, decimal_places=15, blank=True, null=True)
     situacion_final = models.CharField(max_length=10, blank=True, null=True)
 
     class Meta:
@@ -124,10 +132,4 @@ class SeccionProfesor(models.Model):
         unique_together = (('id_seccion', 'rut_profesor'),)
 
 
-class TipoCarrera(models.Model):
-    nombre = models.CharField(max_length=30)
-    nombre_corto = models.CharField(max_length=15)
 
-    class Meta:
-        managed = False
-        db_table = 'tipo_carrera'
