@@ -5,8 +5,6 @@ from rest_framework import viewsets
 
 from django.template import RequestContext
 
-def index(request):
-    return render_to_response('testAngular/indexTest.html', RequestContext(request))
 
 
 class CarreraViewSet(viewsets.ModelViewSet):
