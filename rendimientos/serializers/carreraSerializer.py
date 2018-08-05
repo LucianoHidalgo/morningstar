@@ -1,8 +1,6 @@
 from rest_framework import serializers
 from rendimientos.models import Carrera, TipoCarrera, RendimientoCarrera
 
-# PARA PRIVILEGIOS
-from django.contrib.auth.models import User
 
 class TipoCarreraSerializer(serializers.ModelSerializer):
 
@@ -18,7 +16,7 @@ class CarreraSerializer(serializers.HyperlinkedModelSerializer):
      )
     class Meta:
         model = Carrera
-        fields = '__all__'
+        fields = ('url','codigo','nombre','id_tipo')
 
 
 class RendimientoCarreraSerializer(serializers.ModelSerializer):

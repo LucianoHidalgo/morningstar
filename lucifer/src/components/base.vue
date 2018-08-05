@@ -1,7 +1,17 @@
 <template>
      <div>
-        <app-lista-carreras>
-        </app-lista-carreras>
+        <b-container class="option-bar">
+            <b-row>
+                <b-col> 
+                    <app-lista-carreras>
+                    </app-lista-carreras>
+                </b-col>
+                <b-col></b-col>
+                <b-col>
+                    <b-button variant="primary">Filtrar</b-button>
+                </b-col>
+            </b-row>
+        </b-container>
     </div>
 </template>
 
