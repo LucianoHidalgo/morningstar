@@ -6,7 +6,6 @@ from rest_framework import routers
 
 router = routers.DefaultRouter()
 router.register(r'carrera',apiviews.CarreraViewSet)
-#router.register(r'^rendimiento_carrera/(?P<cod_asignatura>\d+)/(?P<cod_carrera>\d+)/$', apiviews.RendimientoCarreraViewSet.as_view())
 router.register(r'rendimiento_carrera', apiviews.RendimientoCarreraViewSet, base_name='rendimiento_carrera')
 router.register(r'tipo_carrera', apiviews.TipoCarreraViewSet)
 
