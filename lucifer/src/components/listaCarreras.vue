@@ -17,6 +17,10 @@
 </template>
 
 <script>
+
+
+
+
 export default {
     data(){
         return{
@@ -34,9 +38,10 @@ export default {
 
     },
     created(){
-        this.axios.get('http://127.0.0.1:8000/rendimientos/api/carrera/').then((response) => {
-        console.log(response.data)
-        this.lista_de_carreras = response.data
+        const url = this.apiUrl  + '/carrera';
+        this.axios.get(url).then((response) => {
+
+            this.lista_de_carreras = response.data
     })
     }
 }

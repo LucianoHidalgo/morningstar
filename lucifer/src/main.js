@@ -12,6 +12,8 @@ Vue.use(BootstrapVue)
 Vue.use(VueAxios, axios)
 Vue.use(VueRouter)
 
+Vue.prototype.apiUrl =  'http://localhost:8000/rendimientos/api';
+
 const router = new VueRouter({
   routes : Routes,
   mode: 'history'
