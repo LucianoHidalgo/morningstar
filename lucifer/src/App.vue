@@ -1,15 +1,14 @@
 <template>
   <div id="app">
-    <app-Base>
-    </app-Base>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import base from './components/base.vue';
+import vistaRendimientos from './components/vistaRendimientos.vue';
 export default {
   components : {
-    'app-Base': base
+    'app-Base': vistaRendimientos
     },
     
   data () {

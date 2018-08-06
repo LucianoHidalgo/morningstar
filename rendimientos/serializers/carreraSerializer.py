@@ -18,9 +18,29 @@ class CarreraSerializer(serializers.HyperlinkedModelSerializer):
         model = Carrera
         fields = ('url','codigo','nombre','id_tipo')
 
-
+    
 class RendimientoCarreraSerializer(serializers.ModelSerializer):
-
+    
+    promedio = serializers.DecimalField(max_digits=10, decimal_places=2, coerce_to_string=False)
+    promedio_aprobados = serializers.DecimalField(max_digits=10, decimal_places=2, coerce_to_string=False)
+    promedio_reprobados = serializers.DecimalField(max_digits=10, decimal_places=2, coerce_to_string=False)
     class Meta :
         model = RendimientoCarrera 
         fields = '__all__'
+
+'''
+class RendimientoCarreraSerializer(serializers.Serializer):
+    codigo_carrera = serializers.IntegerField()
+    codigo_asignatura = serializers.IntegerField()
+    semestre = serializers.IntegerField()
+    anio = serializers.IntegerField()
+    semestre_etiqueta = serializers.CharField(max_length=20, allow_null=True)
+    aprobados = serializers.IntegerField(allow_null=True)
+    reprobados = serializers.IntegerField(allow_null=True)
+    inscritos = serializers.IntegerField(allow_null=True)
+    promedio = serializers.DecimalField(max_digits=10, decimal_places=2, coerce_to_string=False)
+    promedio_aprobados = serializers.DecimalField(max_digits=10, decimal_places=2, coerce_to_string=False)
+    promedio_reprobados = serializers.DecimalField(max_digits=10, decimal_places=2, coerce_to_string=False)
+    
+
+''' 

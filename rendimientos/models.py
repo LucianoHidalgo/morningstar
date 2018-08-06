@@ -73,8 +73,8 @@ class Profesor(models.Model):
 
 
 class RendimientoCarrera(models.Model):
-    codigo_carrera = models.IntegerField(primary_key=True)
-    codigo_asignatura = models.IntegerField()
+    codigo_carrera = models.IntegerField()
+    codigo_asignatura = models.IntegerField(primary_key=True)
     semestre = models.IntegerField()
     anio = models.IntegerField()
     semestre_etiqueta = models.CharField(max_length=20, blank=True, null=True)

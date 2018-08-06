@@ -6,7 +6,9 @@ from rest_framework import routers
 
 router = routers.DefaultRouter()
 router.register('carrera',apiviews.CarreraViewSet)
+router.register('rendimiento_carrera', apiviews.RendimientoCarreraViewSet)
 router.register('tipo_carrera', apiviews.TipoCarreraViewSet)
+
 
 urlpatterns = [
     path('', views.index, name='index'),

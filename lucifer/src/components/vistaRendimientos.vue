@@ -29,10 +29,11 @@ export default {
 
         
         return{
-            
+           
             
         }
-    }
+    },
+
 }
 </script>
 

@@ -1,7 +1,7 @@
 <template>
 <div class="dropdown">
   
-   <b-dropdown id="ddown1" :text="carrera.nombre" class="m-md-2">
+   <b-dropdown id="ddown1" :text="carrera.nombre" class="md-2">
 
 
     <b-dropdown-item v-for="car in lista_de_carreras" v-on:click="carrera=car" >
