@@ -28,7 +28,7 @@
             </b-row>
             <b-row>
                 <b-col>
-                    <h1>{{codigo_carrera}}</h1>
+
                     <app-graficos v-if='carrera != null && valores != null'
                     v-bind:carrera="carrera"
                     v-bind:valores="valores">
@@ -172,11 +172,17 @@ export default {
         }
  
     },
+    watch : {
+        '$route' () {
+            this.codigo_carrera = this.$route.params.codigo_carrera,
+            this.obtenerCosas()
+        }
+    },
 
 
     created() {
 
-        
+
         this.obtenerCosas();
 
 

@@ -3,12 +3,14 @@
   
    <b-dropdown id="ddown1" :text="carrera.nombre" class="md-2">
 
-
-    <b-dropdown-item v-for="car in lista_de_carreras" >
-        <router-link v-bind:to="'/' + car.codigo">{{ car.nombre }}
-        </router-link>
-    </b-dropdown-item>
-  </b-dropdown>
+ 
+        <b-dropdown-item 
+            v-for="car in lista_de_carreras" 
+            v-on:click="mostrarCoso(car)" >
+                {{ car.nombre }}           
+        </b-dropdown-item>
+ 
+    </b-dropdown>
 
  
  
@@ -34,17 +36,18 @@ export default {
 
     data: function(){
         return{
+            car : {}
             
         }
     },
     methods:{
+        mostrarCoso : function(car) {
+            this.$router.push({path : `/${car.codigo}`})
+        }
 
         
     },
-    watch : {
-        carrera : function() {
-        }
-    }
+
 
 }
 </script>
