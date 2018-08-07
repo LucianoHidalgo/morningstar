@@ -2,6 +2,6 @@ import vistaRendimientos from './components/vistaRendimientos.vue';
 
 export default [
 
-    {path: '/', component: vistaRendimientos}
+    {path: '/:codigo_carrera', component: vistaRendimientos}
 
 ]

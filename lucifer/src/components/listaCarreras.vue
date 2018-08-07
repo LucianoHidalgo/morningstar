@@ -4,8 +4,9 @@
    <b-dropdown id="ddown1" :text="carrera.nombre" class="md-2">
 
 
-    <b-dropdown-item v-for="car in lista_de_carreras" v-on:click="carrera=car" >
-      {{ car.nombre }}
+    <b-dropdown-item v-for="car in lista_de_carreras" >
+        {{ car.nombre }}
+   
     </b-dropdown-item>
   </b-dropdown>
 
@@ -22,27 +23,31 @@
 
 
 export default {
-    data(){
-        return{
 
-            lista_de_carreras : [],
-            carrera : {
-                nombre : 'Seleccione una carrera'
-            },
+    props : {
 
-            
+        lista_de_carreras : {
+            required : true
+        },
+
+        carrera : {
+            required : true
         }
     },
 
-    methods: {
+    data(){
+        return{
+
+        }
+    },
+    methods:{
 
     },
     created(){
-        const url = this.apiUrl  + '/carrera';
-        this.axios.get(url).then((response) => {
 
-            this.lista_de_carreras = response.data
-    })
+    },
+    updated(){
+
     }
 }
 </script>
