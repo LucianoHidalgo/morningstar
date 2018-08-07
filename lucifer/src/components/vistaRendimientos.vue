@@ -3,26 +3,47 @@
         <b-container class="option-bar">
             <b-row>
                 <b-col> 
-                    <app-lista-carreras 
+                    <app-lista-carreras v-if='carrera != null && lista_de_carreras!=null' 
                         v-bind:lista_de_carreras="lista_de_carreras"
                         v-bind:carrera="carrera">
                     </app-lista-carreras>
+
                 </b-col>
                 <b-col></b-col>
                 <b-col>
-                    <b-button variant="primary">Filtrar</b-button>
+
+                        <b-button v-if="!filtrado"
+                            variant="primary" 
+                            v-on:click="filtrar">
+                                Filtrar
+                        </b-button>
+                            <b-button v-else
+                            variant="secondary" 
+                            v-on:click="quitarFiltro">
+                                Quitar Filtro
+                        </b-button>
+                        <p>{{valores}}</p>
+
                 </b-col>
             </b-row>
             <b-row>
                 <b-col>
-                    <app-graficos>
+                    <app-graficos v-if='carrera != null && valores != null'
+                    v-bind:carrera="carrera"
+                    v-bind:valores="valores">
                     </app-graficos>
+                    <h1 v-else> AQUI DEBERÍA IR EL GRÁFICO, PERO ALGO EN MAIN SALIÓ MAL</h1>
                 </b-col>
                 <b-col>
-                    <app-tabla 
+                    <app-tabla v-if='carrera!=null && valores!=null'
                     v-bind:carrera="carrera"
                     v-bind:valores="valores">
                     </app-tabla>
+                    <h2 v-else>
+                        {{carrera.nombre}}
+                        
+                    </h2>
+                    
                 </b-col>
             </b-row>
         </b-container>
@@ -43,7 +64,7 @@ export default {
             'app-tabla' : tablaRendimientos
         },
 
-    data(){
+    data : function(){
 
        
         return{
@@ -51,16 +72,51 @@ export default {
             // HARDCODEADO
             codigo_asignatura : 10110,
 
-            lista_de_carreras : [],
+            lista_de_carreras : null,
             
-            valores : [],
+            valores : null,
 
-            carrera : {},
+            carrera : null,
+
+            filtrado : false,
 
         }
     },
     methods : {
+
+        filtrar : function(event){
+            if(event){
+                var valoresNuevos = [];
+                this.valores.forEach(function(element) {
+
+                    if (element.semestre == 1 || element.semestre == 2){
+                        valoresNuevos.push(element)
+                    }
+
+                });
+                this.valores = valoresNuevos;
+                this.filtrado = true;
+
+            }
+        },
+        quitarFiltro : function(event){
+            let _this = this
+            var urlRendimientos = this.apiUrl  + '/rendimiento_carrera/?' + 
+                                    'carr='+ this.codigo_carrera + 
+                                    '&asign=' + this.codigo_asignatura;
+
+            console.log(urlRendimientos)
+            this.axios.get(urlRendimientos).then((response) => {
+
+                _this.valores = response.data
+            })
+            .catch(function(error){
+                console.log(error);
+            });
+            this.filtrado = false;
+        },
         obtenerDatos: function(){
+            
             var urlListado = this.apiUrl  + '/carrera/';
             var urlCarrera = urlListado + this.codigo_carrera;
 
@@ -87,8 +143,7 @@ export default {
             this.axios.get(urlRendimientos).then((response) => {
 
                 this.valores = response.data
-                console.log("OBTUVE VALORES")
-                console.log(this.valores)
+                
                                 
             })
             .catch(function(error){
@@ -98,6 +153,7 @@ export default {
 
         },
         obtenerCosas : function(){
+            let _this = this
             var urlListado = this.apiUrl  + '/carrera/';
             var urlCarrera = urlListado + this.codigo_carrera;
             var urlRendimientos = this.apiUrl  + '/rendimiento_carrera/?' + 
@@ -110,13 +166,9 @@ export default {
                 this.axios.get(urlRendimientos)
             ]).then(this.axios.spread(function(listado, carrera, rendimientos )
             {   
-                console.log('Carrera', carrera.data);
-                console.log('Listado', listado.data);
-                console.log('Rendimientos', rendimientos.data);
-                this.carrera = carrera;
-                this.lista_de_carreras = lista_de_carreras;
-                this.valores = rendimientos;
-                
+                _this.carrera = carrera.data;
+                _this.lista_de_carreras = listado.data;
+                _this.valores = rendimientos.data;
             }));
 
         }
@@ -128,7 +180,6 @@ export default {
 
         
         this.obtenerCosas();
-        alert(this.carrera.nombre)
 
 
 

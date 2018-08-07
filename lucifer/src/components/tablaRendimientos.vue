@@ -39,7 +39,7 @@ export default {
         }
     },
 
-    data(){
+    data: function(){
         return{
 
             sortBy: 'año',
@@ -61,12 +61,16 @@ export default {
             var valoresTabla = []
             valores.forEach(function(element) {
                 var nuevoElemento = {};              
-                nuevoElemento['año'] = element.anio;
-                nuevoElemento['semestre'] = element.semestre;
-                nuevoElemento['promedio'] = element.promedio.toFixed(2);
-                nuevoElemento['aprobados'] = element.aprobados;
-                nuevoElemento['reprobados'] = element.reprobados;
-                valoresTabla.push(nuevoElemento)
+                
+                if (element.promedio != null) {
+                    nuevoElemento['año'] = element.anio;
+                    nuevoElemento['semestre'] = element.semestre;
+                    nuevoElemento['promedio'] = element.promedio.toFixed(2);
+                    nuevoElemento['aprobados'] = element.aprobados;
+                    nuevoElemento['reprobados'] = element.reprobados;
+                    valoresTabla.push(nuevoElemento)
+                }
+                
             });
             return valoresTabla
                 
@@ -74,7 +78,7 @@ export default {
 
     },
 
-    mounted(){
+    created(){
         this.valoresTabla = this.obtenerValoresTabla(this.valores)
 
     }

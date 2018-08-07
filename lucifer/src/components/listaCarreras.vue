@@ -5,8 +5,8 @@
 
 
     <b-dropdown-item v-for="car in lista_de_carreras" >
-        {{ car.nombre }}
-   
+        <router-link v-bind:to="'/' + car.codigo">{{ car.nombre }}
+        </router-link>
     </b-dropdown-item>
   </b-dropdown>
 
@@ -18,9 +18,6 @@
 </template>
 
 <script>
-
-
-
 
 export default {
 
@@ -35,20 +32,16 @@ export default {
         }
     },
 
-    data(){
+    data: function(){
         return{
-
+            
         }
     },
     methods:{
 
+        
     },
-    created(){
 
-    },
-    updated(){
-
-    }
 }
 </script>
 
