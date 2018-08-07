@@ -1,6 +1,6 @@
 <template>
      <div>
-        <b-container class="option-bar">
+        <b-container fluid class="option-bar">
             <b-row>
                 <b-col> 
                     <app-lista-carreras v-if='carrera != null && lista_de_carreras!=null' 
@@ -121,7 +121,7 @@ export default {
             this.axios.get(urlCarrera).then((response) => {
 
                 this.carrera = response.data;
-                console.log("OBTENGO CARRERA" + this.carrera.nombre)
+
             }).catch(function(error){
                 console.log(error);
             });
