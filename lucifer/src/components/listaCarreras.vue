@@ -41,6 +41,10 @@ export default {
 
         
     },
+    watch : {
+        carrera : function() {
+        }
+    }
 
 }
 </script>

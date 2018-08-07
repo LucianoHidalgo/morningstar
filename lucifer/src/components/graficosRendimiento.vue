@@ -1,6 +1,9 @@
 <template>
 <div>
+    <div>
     <canvas id="graficoRendimiento"></canvas>
+    </div>
+
 </div>
 
 </template>
@@ -22,9 +25,11 @@ export default {
     data: function(){
         return{
 
-            chartData : {}
+            chartData : {},
+            myChart : null
         }
     },
+
     methods:{
 
         asignarValores : function(etiquetas, datos){
@@ -100,18 +105,32 @@ export default {
         },
         
         createChart: function(chartId, chartData) {
+
+
             const ctx = document.getElementById(chartId);
-            const myChart = new Chart(ctx, {
+            this.myChart = new Chart(ctx, {
             type: chartData.type,
             data: chartData.data,
             options: chartData.options,
+            
             });
+  
+        }
+    },
+
+    watch : {
+        valores : function(){
+            this.obtenerDataSets()
+            this.myChart.destroy()
+            this.createChart('graficoRendimiento', this.chartData)
+
+            
         }
     },
     created(){
 
         this.obtenerDataSets()
-
+        
     },
     mounted() {
         this.createChart('graficoRendimiento', this.chartData);

@@ -22,12 +22,13 @@
                             v-on:click="quitarFiltro">
                                 Quitar Filtro
                         </b-button>
-                        <p>{{valores}}</p>
+ 
 
                 </b-col>
             </b-row>
             <b-row>
                 <b-col>
+                    <h1>{{codigo_carrera}}</h1>
                     <app-graficos v-if='carrera != null && valores != null'
                     v-bind:carrera="carrera"
                     v-bind:valores="valores">
@@ -39,10 +40,7 @@
                     v-bind:carrera="carrera"
                     v-bind:valores="valores">
                     </app-tabla>
-                    <h2 v-else>
-                        {{carrera.nombre}}
-                        
-                    </h2>
+
                     
                 </b-col>
             </b-row>
