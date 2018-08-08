@@ -1,5 +1,6 @@
 <template>
      <div>
+
         <b-container fluid class="option-bar">
             <b-row>
                 <b-col> 
@@ -49,14 +50,16 @@
 </template>
 
 <script>
-//Imports
-import listaCarreras from './listaCarreras.vue';
-import tablaRendimientos from './tablaRendimientos.vue';
-import graficosRendimiento from './graficosRendimiento.vue';
+
+//Imports para el componente
+import listaCarreras from './rendmimientosCarrera/listaCarreras.vue';
+import tablaRendimientos from './rendmimientosCarrera/tablaRendimientos.vue';
+import graficosRendimiento from './rendmimientosCarrera/graficosRendimiento.vue';
 
 export default {
 
     components : {
+
             'app-lista-carreras': listaCarreras,
             'app-graficos': graficosRendimiento,
             'app-tabla' : tablaRendimientos
@@ -78,11 +81,13 @@ export default {
 
             filtrado : false,
 
+            valoresOcultos : null
         }
     },
     methods : {
 
         filtrar : function(event){
+            this.valoresOcultos = this.valores
             if(event){
                 var valoresNuevos = [];
                 this.valores.forEach(function(element) {
@@ -98,6 +103,7 @@ export default {
             }
         },
         quitarFiltro : function(event){
+            /*
             let _this = this
             var urlRendimientos = this.apiUrl  + '/rendimiento_carrera/?' + 
                                     'carr='+ this.codigo_carrera + 
@@ -111,6 +117,8 @@ export default {
             .catch(function(error){
                 console.log(error);
             });
+            */
+           this.valores = this.valoresOcultos
             this.filtrado = false;
         },
         obtenerDatos: function(){
@@ -176,6 +184,8 @@ export default {
         '$route' () {
             this.codigo_carrera = this.$route.params.codigo_carrera,
             this.obtenerCosas()
+            this.filtrado = false
+
         }
     },
 
