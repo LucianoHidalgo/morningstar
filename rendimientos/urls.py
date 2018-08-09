@@ -5,9 +5,12 @@ from . import apiviews
 from rest_framework import routers
 
 router = routers.DefaultRouter()
-router.register(r'carrera',apiviews.CarreraViewSet)
-router.register(r'rendimiento_carrera', apiviews.RendimientoCarreraViewSet, base_name='rendimiento_carrera')
-router.register(r'tipo_carrera', apiviews.TipoCarreraViewSet)
+router.register(r'asignatura',apiviews.AsignaturaViewSet, base_name='asignatura')
+router.register(r'carrera',apiviews.CarreraViewSet, base_name='carrera')
+router.register(r'rendimiento-carrera', apiviews.RendimientoCarreraViewSet, base_name='rendimiento_carrera')
+router.register(r'carreras-relacionadas',apiviews.CarrerasRelacionadasViewSet, base_name='carreras')
+router.register(r'tipo-carrera', apiviews.TipoCarreraViewSet)
+router.register(r'asignaturas-relacionadas', apiviews.AsignaturasRelacionadasViewSet, base_name='asignaturas' )
 
 
 urlpatterns = [

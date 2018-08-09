@@ -10,7 +10,11 @@ from django.db import models
 
 class Asignatura(models.Model):
     codigo = models.IntegerField(primary_key=True)
-    nombre = models.CharField(max_length=50)
+    nombre = models.CharField(max_length=100)
+    teoria = models.IntegerField(blank=True, null=True)
+    ejercicios = models.IntegerField(blank=True, null=True)
+    laboratorio = models.IntegerField(blank=True, null=True)
+    sct = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
@@ -57,6 +61,16 @@ class Estudiante(models.Model):
         managed = False
         db_table = 'estudiante'
 
+class Malla(models.Model):
+    codigo_carrera = models.ForeignKey(Carrera, models.DO_NOTHING, db_column='codigo_carrera')
+    carrera_mencion = models.IntegerField()
+    codigo_asignatura = models.ForeignKey(Asignatura, models.DO_NOTHING, db_column='codigo_asignatura')
+    nivel = models.IntegerField()
+    version_plan = models.IntegerField()
+
+    class Meta:
+        managed = False
+        db_table = 'malla'
 
 class Profesor(models.Model):
     rut = models.CharField(primary_key=True, max_length=10)

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from rendimientos.models import Carrera, TipoCarrera, RendimientoCarrera
+from rendimientos.models import Carrera, TipoCarrera, RendimientoCarrera, Asignatura
 
 
 class TipoCarreraSerializer(serializers.ModelSerializer):
@@ -18,6 +18,11 @@ class CarreraSerializer(serializers.HyperlinkedModelSerializer):
         model = Carrera
         fields = ('url','codigo','nombre','id_tipo')
 
+class AsignaturaSerializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta :
+        model = Asignatura
+        fields = ('url', 'codigo', 'nombre', 'teoria', 'ejercicios', 'laboratorio', 'sct')
     
 class RendimientoCarreraSerializer(serializers.ModelSerializer):
     
@@ -27,6 +32,18 @@ class RendimientoCarreraSerializer(serializers.ModelSerializer):
     class Meta :
         model = RendimientoCarrera 
         fields = '__all__'
+
+class CarrerasRelacionadasSerializer(serializers.ModelSerializer):
+    class Meta :
+        model = Carrera 
+        fields = '__all__'
+
+
+class AsignaturasRelacionadasSerializer(serializers.ModelSerializer):
+    class Meta :
+        model = Asignatura
+        fields = '__all__'
+
 
 '''
 class RendimientoCarreraSerializer(serializers.Serializer):

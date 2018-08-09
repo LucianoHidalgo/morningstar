@@ -10,7 +10,11 @@ from django.db import models
 
 class Asignatura(models.Model):
     codigo = models.IntegerField(primary_key=True)
-    nombre = models.CharField(max_length=50)
+    nombre = models.CharField(max_length=100)
+    teoria = models.IntegerField(blank=True, null=True)
+    ejercicios = models.IntegerField(blank=True, null=True)
+    laboratorio = models.IntegerField(blank=True, null=True)
+    sct = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
@@ -93,16 +97,6 @@ class Carrera(models.Model):
         db_table = 'carrera'
 
 
-class CarreraAsignatura(models.Model):
-    codigo_carrera = models.ForeignKey(Carrera, models.DO_NOTHING, db_column='codigo_carrera', primary_key=True)
-    codigo_asignatura = models.ForeignKey(Asignatura, models.DO_NOTHING, db_column='codigo_asignatura')
-
-    class Meta:
-        managed = False
-        db_table = 'carrera_asignatura'
-        unique_together = (('codigo_carrera', 'codigo_asignatura'),)
-
-
 class DjangoAdminLog(models.Model):
     action_time = models.DateTimeField()
     object_id = models.TextField(blank=True, null=True)
@@ -160,6 +154,18 @@ class Estudiante(models.Model):
         db_table = 'estudiante'
 
 
+class Malla(models.Model):
+    codigo_carrera = models.ForeignKey(Carrera, models.DO_NOTHING, db_column='codigo_carrera')
+    carrera_mencion = models.IntegerField()
+    codigo_asignatura = models.ForeignKey(Asignatura, models.DO_NOTHING, db_column='codigo_asignatura')
+    nivel = models.IntegerField()
+    version_plan = models.IntegerField()
+
+    class Meta:
+        managed = False
+        db_table = 'malla'
+
+
 class Profesor(models.Model):
     rut = models.CharField(primary_key=True, max_length=10)
     paterno = models.CharField(max_length=50)
@@ -200,6 +206,16 @@ class RendimientosAsignatura(models.Model):
     class Meta:
         managed = False
         db_table = 'rendimientos_asignatura'
+
+
+class RendimientosCarrera(models.Model):
+    cod_carrera = models.IntegerField(primary_key=True)
+    nom_carrera = models.CharField(max_length=50)
+    tipo_carrera = models.CharField(max_length=10)
+
+    class Meta:
+        managed = False
+        db_table = 'rendimientos_carrera'
 
 
 class Seccion(models.Model):

@@ -142,7 +142,7 @@ export default {
                 console.log(error);
             });
 
-            var urlRendimientos = this.apiUrl  + '/rendimiento_carrera/?' + 
+            var urlRendimientos = this.apiUrl  + '/rendimiento-carrera/?' + 
                 'carr='+ this.codigo_asignatura + 
                 '&asign=' + this.codigo_asignatura;
 
@@ -162,7 +162,7 @@ export default {
             let _this = this
             var urlListado = this.apiUrl  + '/carrera/';
             var urlCarrera = urlListado + this.codigo_carrera;
-            var urlRendimientos = this.apiUrl  + '/rendimiento_carrera/?' + 
+            var urlRendimientos = this.apiUrl  + '/rendimiento-carrera/?' + 
                 'carr='+ this.codigo_carrera + 
                 '&asign=' + this.codigo_asignatura;
 
