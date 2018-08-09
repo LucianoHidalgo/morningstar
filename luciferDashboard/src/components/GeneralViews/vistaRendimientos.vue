@@ -52,9 +52,9 @@
 <script>
 
 //Imports para el componente
-import listaCarreras from './rendimientosCarrera/listaCarreras.vue';
-import tablaRendimientos from './rendimientosCarrera/tablaRendimientos.vue';
-import graficosRendimiento from './rendimientosCarrera/graficosRendimiento.vue';
+import listaCarreras from './vistaRendimientos/listaCarreras.vue';
+import tablaRendimientos from './vistaRendimientos/tablaRendimientos.vue';
+import graficosRendimiento from './vistaRendimientos/graficosRendimiento.vue';
 
 export default {
 
