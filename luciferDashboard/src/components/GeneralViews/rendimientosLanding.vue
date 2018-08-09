@@ -3,11 +3,10 @@
         <b-container fluid class="option-bar">
             <b-row>
                 <b-col>
-                    <b-form-input v-model="search"
-                        type="text"
-                        placeholder="Buscar una asignatura"></b-form-input>
-                    
-                    <app-lista-asignaturas></app-lista-asignaturas>
+                   
+                   <app-lista-asignaturas v-if='lista_de_asignaturas != null'
+                    v-bind:lista_de_asignaturas="lista_de_asignaturas">
+                    </app-lista-asignaturas>
                 </b-col>
                 <b-col>
                     <app-lista-carreras></app-lista-carreras>
@@ -21,8 +20,7 @@
 <script>
 
 //Imports para el componente
-// Imports
-import searchMixin from '.../mixins/searchMixin';
+
 
 import listaAsignaturas from './rendimientosLanding/listaAsignaturas.vue';
 import listaCarreras from './rendimientosLanding/listaCarreras.vue';
@@ -40,14 +38,28 @@ export default {
        
         return{
             codigo_asignatura: this.$route.params.codigo_asignatura,
-            search: '',
+            lista_de_asignaturas : null,
+            
             
 
 
         }
     },
-    mixins: [searchMixin],
+
     methods : {
+        obtenerListado: function(){
+            let _this = this
+            var urlListado = this.apiUrl  + '/asignatura/';
+            console.log(urlListado)
+
+            this.axios.get(urlListado).then((response) => {
+
+                _this.lista_de_asignaturas = response.data;
+
+            }).catch(function(error){
+                console.log(error);
+            });
+        }
 
     },
     watch : {
@@ -56,7 +68,7 @@ export default {
 
 
     created() {
-
+        this.obtenerListado();
     },
 
 

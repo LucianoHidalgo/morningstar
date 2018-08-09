@@ -1,9 +1,13 @@
 <template>
 <div >
-
+    <b-form-input  v-model="search"
+    type="text"
+    placeholder="Buscar una asignatura">
+    </b-form-input>
+    <p>{{asignatura}}</p>
    <b-list-group id="lista-asignatura">
-       <b-list-group-item v-for="asignatura in lista_de_asignaturas">
-           {{asignatura.nombre}}
+       <b-list-group-item button v-for="asignaturaMostrada in filtrarAsignatura" v-on:click="asignarAsignatura(asignaturaMostrada)">
+           {{asignaturaMostrada.nombre}}
         </b-list-group-item>
     </b-list-group>
 
@@ -15,34 +19,44 @@
 
 <script>
 
-export default {
 
+export default {
+    props : {
+        lista_de_asignaturas : {
+            required : true
+        },
+        asignatura : {
+            required : true
+        }
+    },
 
     data: function(){
         return{
-            lista_de_asignaturas : null,
+            
+            search: '',
             
         }
     },
     methods:{
+        asignarAsignatura: function(asignaturaSeleccionada){
+            this.asignatura = asignaturaSeleccionada
+        },
 
-        obtenerListado: function(){
-            let _this = this
-            var urlListado = this.apiUrl  + '/asignatura/';
 
-            this.axios.get(urlListado).then((response) => {
-
-                _this.lista_de_asignaturas = response.data;
-
-            }).catch(function(error){
-                console.log(error);
-            });
-        }
        
     },
+    computed : {
+                filtrarAsignatura: function(){
+                    return this.lista_de_asignaturas.filter((asignatura) => {
+                        return asignatura.nombre.match(this.search);
+                    });
+                },
+
+    },
     created() {
-        this.obtenerListado()
-    }
+
+    },
+
 
 
 }
