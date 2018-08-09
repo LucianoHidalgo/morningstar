@@ -3,6 +3,7 @@ import DashboardLayout from '../components/Dashboard/Layout/DashboardLayout.vue'
 import NotFound from '../components/GeneralViews/NotFoundPage.vue'
 // General Views, MINE
 import vistaRendimientos from '../components/GeneralViews/vistaRendimientos.vue'
+import rendimientosLanding from '../components/GeneralViews/rendimientosLanding.vue'
 // Admin pages
 import Overview from 'src/components/Dashboard/Views/Overview.vue'
 import UserProfile from 'src/components/Dashboard/Views/UserProfile.vue'
@@ -62,6 +63,11 @@ const routes = [
         path: 'carrera/:codigo_carrera',
         name: 'rendimientos',
         component: vistaRendimientos
+      },
+      {
+        path: 'asignatura',
+        name: 'asignaturas',
+        component: rendimientosLanding
       }
 
     ]
