@@ -25,10 +25,7 @@ class AsignaturaSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('url', 'codigo', 'nombre', 'teoria', 'ejercicios', 'laboratorio', 'sct')
     
 class RendimientoCarreraSerializer(serializers.ModelSerializer):
-    
-    promedio = serializers.DecimalField(max_digits=10, decimal_places=2, coerce_to_string=False)
-    promedio_aprobados = serializers.DecimalField(max_digits=10, decimal_places=2, coerce_to_string=False)
-    promedio_reprobados = serializers.DecimalField(max_digits=10, decimal_places=2, coerce_to_string=False)
+   
     class Meta :
         model = RendimientoCarrera 
         fields = '__all__'

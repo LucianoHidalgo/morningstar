@@ -4,12 +4,19 @@
        :data-color="backgroundColor"
        :data-image="backgroundImage">
     <div class="sidebar-wrapper">
+      
       <div class="logo">
+       
         <a href="#" class="simple-text">
+           <b-img src="static/img/logo-4.png" fluid />
+          <!--
             <div class="logo-img">
-                <img src="static/img/vue-logo.png" alt="">
+
+                <img src="">
+
             </div>
-          {{title}}
+          {{title}} 
+          -->
         </a>
       </div>
 
