@@ -1,16 +1,22 @@
 <template>
      <div>
-        <b-container fluid class="option-bar">
-            <b-row>
+
+        <b-container fluid>
+
+            <b-row v-if='lista_de_asignaturas != null && asignatura == null'>
                 <b-col>
-                   
-                   <app-lista-asignaturas v-if='lista_de_asignaturas != null'
-                    v-bind:lista_de_asignaturas="lista_de_asignaturas">
+
+                   <app-lista-asignaturas 
+                    v-bind:lista_de_asignaturas="lista_de_asignaturas"
+                    v-on:seleccionada='asignatura = $event'>
                     </app-lista-asignaturas>
                 </b-col>
-                <b-col>
-                    <app-lista-carreras></app-lista-carreras>
-                </b-col>
+            </b-row>
+            <b-row v-else-if='asignatura != null'>
+
+                    <app-asignatura 
+                    v-bind:asignatura="asignatura"
+                    v-on:atras='asignatura = null'></app-asignatura>
             </b-row>
         </b-container>
 
@@ -23,14 +29,14 @@
 
 
 import listaAsignaturas from './rendimientosLanding/listaAsignaturas.vue';
-import listaCarreras from './rendimientosLanding/listaCarreras.vue';
-
+import detalleAsignatura from './rendimientosLanding/detalleAsignatura.vue';
 
 export default {
 
     components : {
             'app-lista-asignaturas': listaAsignaturas,
-            'app-lista-carreras' : listaCarreras
+
+            'app-asignatura' : detalleAsignatura
         },
 
     data : function(){
@@ -38,11 +44,8 @@ export default {
        
         return{
             codigo_asignatura: this.$route.params.codigo_asignatura,
+            asignatura : null,
             lista_de_asignaturas : null,
-            
-            
-
-
         }
     },
 
@@ -50,7 +53,7 @@ export default {
         obtenerListado: function(){
             let _this = this
             var urlListado = this.apiUrl  + '/asignatura/';
-            console.log(urlListado)
+
 
             this.axios.get(urlListado).then((response) => {
 
@@ -59,17 +62,39 @@ export default {
             }).catch(function(error){
                 console.log(error);
             });
-        }
+        },
+        obtenerAsignatura: function(codigo){
+            let _this = this
+            var url = this.apiUrl  + '/asignatura/' + codigo;
+
+            console.log(url)
+            this.axios.get(url).then((response) => {
+
+                _this.asignatura = response.data;
+
+            }).catch(function(error){
+                console.log(error);
+            });
+        },
+
+
+
 
     },
     watch : {
-
     },
 
 
     created() {
-        this.obtenerListado();
+        
+        if (typeof this.$route.params.codigo_asignatura != "undefined") {
+
+            this.obtenerAsignatura(this.$route.params.codigo_asignatura)
+        }
+        this.obtenerListado();       
+
     },
+
 
 
 

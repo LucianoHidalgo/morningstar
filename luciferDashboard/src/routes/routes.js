@@ -17,7 +17,10 @@ const routes = [
   {
     path: '/',
     component: DashboardLayout,
-    redirect: '/admin/overview'
+    redirect: '/admin/overview',
+    meta : {
+        breadcrumb : 'Admin'
+      },
   },
   {
     path: '/admin',
@@ -60,16 +63,27 @@ const routes = [
         component: Notifications
       },
       {
-        path: 'carrera/:codigo_carrera',
+        path: 'asignatura',
+        name: 'asignaturas',
+        component: rendimientosLanding,
+        meta : {
+          breadcrumb : 'asignatura'
+        },
+      },
+      {
+        path: 'asignatura/:codigo_asignatura',
+        name: 'asignaturaDetalle',
+        component: rendimientosLanding,
+        meta : {
+          breadcrumb : 'Admin'
+        },
+      },
+
+      {
+        path: 'asignatura/:codigo_asignatura/carrera/:codigo_carrera',
         name: 'rendimientos',
         component: vistaRendimientos
       },
-      {
-        path: 'asignatura',
-        name: 'asignaturas',
-        component: rendimientosLanding
-      }
-
     ]
   },
   { path: '*', component: NotFound }

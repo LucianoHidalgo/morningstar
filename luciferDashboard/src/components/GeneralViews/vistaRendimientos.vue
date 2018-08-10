@@ -3,26 +3,30 @@
 
         <b-container fluid class="option-bar">
             <b-row>
-                <b-col> 
-                    <app-lista-carreras v-if='carrera != null && lista_de_carreras!=null' 
-                        v-bind:lista_de_carreras="lista_de_carreras"
-                        v-bind:carrera="carrera">
-                    </app-lista-carreras>
+                <b-col cols = "5"> 
+                    <h2 class="text-primary">{{carrera.nombre}} </h2>
 
                 </b-col>
                 <b-col></b-col>
-                <b-col>
-
+                <b-col >
+                    <b-button-group>
                         <b-button v-if="!filtrado"
                             variant="primary" 
                             v-on:click="filtrar">
                                 Filtrar
                         </b-button>
-                            <b-button v-else
-                            variant="secondary" 
-                            v-on:click="quitarFiltro">
-                                Quitar Filtro
+                        <b-button v-else
+                        variant="secondary" 
+                        v-on:click="quitarFiltro">
+                            Quitar Filtro
+                        
                         </b-button>
+                            <b-button  
+                            variant="secondary"
+                            v-on:click="volverAtras">
+                                Volver atrás
+                        </b-button>
+                    </b-button-group>
  
 
                 </b-col>
@@ -34,7 +38,7 @@
                     v-bind:carrera="carrera"
                     v-bind:valores="valores">
                     </app-graficos>
-                    <h1 v-else> AQUI DEBERÍA IR EL GRÁFICO, PERO ALGO EN MAIN SALIÓ MAL</h1>
+                    <h1 v-else> AQUI DEBERÍA IR EL GRÁFICO, PERO ALGO SALIÓ MAL</h1>
                 </b-col>
                 <b-col>
                     <app-tabla v-if='carrera!=null && valores!=null'
@@ -60,10 +64,12 @@ export default {
 
     components : {
 
-            'app-lista-carreras': listaCarreras,
-            'app-graficos': graficosRendimiento,
-            'app-tabla' : tablaRendimientos
-        },
+        'app-lista-carreras': listaCarreras,
+        'app-graficos': graficosRendimiento,
+        'app-tabla' : tablaRendimientos
+    },
+
+    
 
     data : function(){
 
@@ -71,7 +77,7 @@ export default {
         return{
             codigo_carrera: this.$route.params.codigo_carrera,
             // HARDCODEADO
-            codigo_asignatura : 10110,
+            codigo_asignatura : this.$route.params.codigo_asignatura,
 
             lista_de_carreras : null,
             
@@ -103,23 +109,18 @@ export default {
             }
         },
         quitarFiltro : function(event){
-            /*
-            let _this = this
-            var urlRendimientos = this.apiUrl  + '/rendimiento_carrera/?' + 
-                                    'carr='+ this.codigo_carrera + 
-                                    '&asign=' + this.codigo_asignatura;
 
-            console.log(urlRendimientos)
-            this.axios.get(urlRendimientos).then((response) => {
-
-                _this.valores = response.data
-            })
-            .catch(function(error){
-                console.log(error);
-            });
-            */
-           this.valores = this.valoresOcultos
+            this.valores = this.valoresOcultos
             this.filtrado = false;
+        },
+        volverAtras: function(){
+            var codAsignatura = this.codigo_asignatura
+            this.$router.push({
+                name: 'asignaturaDetalle', 
+                params : {
+                    codigo_asignatura : codAsignatura
+                }
+            })
         },
         obtenerDatos: function(){
             
@@ -164,8 +165,8 @@ export default {
             var urlCarrera = urlListado + this.codigo_carrera;
             var urlRendimientos = this.apiUrl  + '/rendimiento-carrera/?' + 
                 'carr='+ this.codigo_carrera + 
-                '&asign=' + this.codigo_asignatura;
-
+                '&asig=' + this.codigo_asignatura;
+            console.log(urlRendimientos)
             this.axios.all([
                 this.axios.get(urlListado),
                 this.axios.get(urlCarrera),

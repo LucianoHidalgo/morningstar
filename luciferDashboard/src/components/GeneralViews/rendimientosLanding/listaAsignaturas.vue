@@ -4,9 +4,11 @@
     type="text"
     placeholder="Buscar una asignatura">
     </b-form-input>
-    <p>{{asignatura}}</p>
+
    <b-list-group id="lista-asignatura">
-       <b-list-group-item button v-for="asignaturaMostrada in filtrarAsignatura" v-on:click="asignarAsignatura(asignaturaMostrada)">
+       <b-list-group-item 
+        button v-for="asignaturaMostrada in filtrarAsignatura" 
+        v-on:click="asignarAsignatura(asignaturaMostrada)">
            {{asignaturaMostrada.nombre}}
         </b-list-group-item>
     </b-list-group>
@@ -25,9 +27,7 @@ export default {
         lista_de_asignaturas : {
             required : true
         },
-        asignatura : {
-            required : true
-        }
+
     },
 
     data: function(){
@@ -39,20 +39,21 @@ export default {
     },
     methods:{
         asignarAsignatura: function(asignaturaSeleccionada){
-            this.asignatura = asignaturaSeleccionada
-        },
+            var codAsignatura = asignaturaSeleccionada.codigo
 
-
-       
+            this.$emit('seleccionada', asignaturaSeleccionada)
+            this.$router.push({name: 'asignaturaDetalle',  params: { codigo_asignatura: codAsignatura }})
+        }, 
     },
     computed : {
-                filtrarAsignatura: function(){
-                    return this.lista_de_asignaturas.filter((asignatura) => {
-                        return asignatura.nombre.match(this.search);
-                    });
-                },
+        filtrarAsignatura: function(){
+            return this.lista_de_asignaturas.filter((asignatura) => {
+                return asignatura.nombre.match(this.search);
+            });
+        },
 
     },
+
     created() {
 
     },
