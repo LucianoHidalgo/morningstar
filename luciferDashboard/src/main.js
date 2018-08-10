@@ -6,9 +6,7 @@ import VueAxios from 'vue-axios'
 import VueChartkick from 'vue-chartkick'
 import Chart from 'chart.js'
 import BootstrapVue from 'bootstrap-vue'
-import VueBreadcrumbs from 'vue-breadcrumbs'
 
-Vue.use(VueBreadcrumbs)
 
 // LightBootstrap plugin
 import LightBootstrap from './light-bootstrap-main'
@@ -21,7 +19,7 @@ Vue.use(BootstrapVue)
 Vue.use(LightBootstrap)
 Vue.use(VueAxios, axios)
 Vue.use(VueChartkick, {adapter: Chart})
-Vue.use(VueBreadcrumbs)
+
 
 
 Vue.prototype.apiUrl =  'http://localhost:8000/rendimientos/api';
