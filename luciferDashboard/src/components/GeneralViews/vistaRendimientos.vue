@@ -43,6 +43,7 @@
                         v-bind:valores="valores">
                         </app-graficos>
                         <h1 v-else> AQUI DEBERÍA IR EL GRÁFICO, PERO ALGO SALIÓ MAL</h1>
+
                     </b-col>
                     <b-col>
                         <app-tabla v-if='carrera!=null && valores!=null'
@@ -57,41 +58,44 @@
             <b-tab title="Teoría" 
             v-on:click="obtenerRendimientosTeoria()" 
              v-bind:disabled="asignatura.teoria == 0">
-                <b-row>
+                <b-row  v-if='carrera != null && valores_teoria != null'>
+
                     <b-col>
-                        <!--
-                        <app-graficos v-if='carrera != null && valores_teoria != null'
+
+                        <app-graficos
                         v-bind:carrera="carrera"
                         v-bind:valores="valores_teoria">
                         </app-graficos>
-                        <h1 v-else> AQUI DEBERÍA IR EL GRÁFICO, PERO ALGO SALIÓ MAL</h1>
-                        -->
+
+
                     </b-col>
                     <b-col>
-                        <app-tabla v-if='carrera!=null && valores_teoria!=null'
+                        <app-tabla 
                         v-bind:carrera="carrera"
                         v-bind:valores="valores_teoria">
                         </app-tabla>
 
                         
                     </b-col>
+
                 </b-row>
             </b-tab>
             <b-tab title="Laboratorio" 
             v-on:click="obtenerRendimientosLaboratorio()"
             v-bind:disabled="asignatura.laboratorio == 0">
-                <b-row>
+
+                <b-row v-if='carrera != null && valores_laboratorio != null'>
                     <b-col>
-                        <!--
-                        <app-graficos v-if='carrera != null && valores_laboratorio != null'
+
+                        <app-graficos 
                         v-bind:carrera="carrera"
                         v-bind:valores="valores_laboratorio">
                         </app-graficos>
-                        <h1 v-else> AQUI DEBERÍA IR EL GRÁFICO, PERO ALGO SALIÓ MAL</h1>
-                        -->
+                        
+
                     </b-col>
                     <b-col>
-                        <app-tabla v-if='carrera!=null && valores_laboratorio!=null'
+                        <app-tabla 
                         v-bind:carrera="carrera"
                         v-bind:valores="valores_laboratorio">
                         </app-tabla>
@@ -99,6 +103,7 @@
                         
                     </b-col>
                 </b-row>
+  
             </b-tab>
         </b-tabs>
         </div>
@@ -118,10 +123,10 @@ export default {
 
         'app-lista-carreras': listaCarreras,
         'app-graficos': graficosRendimiento,
-        'app-tabla' : tablaRendimientos
+        'app-tabla' : tablaRendimientos,
+
     },
 
-    
 
     data : function(){
 

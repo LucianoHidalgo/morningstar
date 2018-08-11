@@ -3,8 +3,8 @@ import VueRouter from 'vue-router'
 import App from './App.vue'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
-import VueChartkick from 'vue-chartkick'
-import Chart from 'chart.js'
+import VueCharts from 'vue-chartjs'
+
 import BootstrapVue from 'bootstrap-vue'
 
 
@@ -18,7 +18,8 @@ Vue.use(VueRouter)
 Vue.use(BootstrapVue)
 Vue.use(LightBootstrap)
 Vue.use(VueAxios, axios)
-Vue.use(VueChartkick, {adapter: Chart})
+Vue.use(VueCharts)
+
 
 
 

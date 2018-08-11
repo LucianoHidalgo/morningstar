@@ -1,24 +1,17 @@
 <template>
 <div>
-    <p>{{data}}</p>
-     <line-chart :chart-data="datacollection" :options="options"></line-chart>
-    <!--<div >
+    
+    <div >
     <canvas id="graficoRendimiento"></canvas>
 
-    </div> -->
+    </div>
 
 </div>
 
 </template>
 <script>
-import lineChart from './lineChart.js'
-
 
 export default {
-
-    components : {
-        lineChart
-    },
 
     props : {
 
@@ -34,10 +27,31 @@ export default {
     data: function(){
         return{
 
+            chartData : {},
+            myChart : null,
+            data : null,
+            label : null,
+        }
+    },
 
-                data : null,
-                labels : null,
-                datacollection : null,
+    methods:{
+
+        asignarValores : function(etiquetas, datos){
+
+            this.chartData = {
+                type: 'line',
+                data: {
+
+                    labels: etiquetas ,
+                    datasets: [{
+                        label: this.carrera.codigo,
+                        fill: false,
+                        backgroundColor: '#EA7600',
+                        borderColor: '#EA7600',
+                        data: datos,
+                    }
+                    ]
+                },
                 options: {
                     
                     animation:  {
@@ -72,50 +86,14 @@ export default {
                         }]
                     }
                 }
-        }
-    },
-
-    methods:{
-        /*
-        asignarValores : function(etiquetas, datos){
-
-            this.chartData = {
-                type: 'line',
-                data: {
-
-                    labels: etiquetas ,
-                    datasets: [{
-                        label: this.carrera.codigo,
-                        fill: false,
-                        backgroundColor: '#002F6C',
-                        borderColor: '#002F6C',
-                        data: datos,
-                    }
-                    ]
-                },
-                
 		    };
-        }, */
-        asignarValores : function(etiquetas, datos, leyenda){
-            this.datacollection = {
-                labels : etiquetas,
-                datasets : [
-                    {
-                        label: leyenda,
-                        fill: false,
-                        backgroundColor: '#002F6C',
-                        borderColor: '#002F6C',
-                        data: datos
-                    }
-                ]
-            }
         },
-
+    
 
         obtenerDataSets : function(){
             var etiquetas = [];
             var datos = [];
-            var leyenda = this.carrera.codigo
+            
             this.valores.forEach(function(element) {
                 
                 if (element.promedio != null) {
@@ -127,20 +105,36 @@ export default {
                 }
             });
             
-            this.asignarValores(etiquetas, datos, leyenda)
+            this.asignarValores(etiquetas,datos);
             
 
         },
+        
+        createChart: function(chartId, chartData) {
 
+
+            var ctx = document.getElementById(chartId);
+            
+            this.myChart = new Chart(ctx, {
+            type: chartData.type,
+            data: chartData.data,
+            options: chartData.options,
+            
+            });
+  
+        }
     },
-    
+    /*
     watch : {
         valores : function(){
             this.obtenerDataSets()
+            this.myChart.destroy()
+            this.createChart('graficoRendimiento', this.chartData)
+
             
         }
     },
-    
+    */
     created(){
 
         this.obtenerDataSets()
@@ -148,10 +142,13 @@ export default {
         
     },
     mounted() {
-
-    }
+        if (this.myChart != null ){
+            
+            this.myChart.destroy()
+        }
         
-    
+        this.createChart('graficoRendimiento', this.chartData);
+    }
 
 }
 
