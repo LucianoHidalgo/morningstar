@@ -191,6 +191,16 @@ class RendimientoAsignatura(models.Model):
     cantidad_reprobados = models.IntegerField(blank=True, null=True)
     cantidad_convalidados = models.IntegerField(blank=True, null=True)
     inscritos = models.IntegerField(blank=True, null=True)
+    promedio_laboratorio = models.FloatField(blank=True, null=True)
+    promedio_aprobados_laboratorio = models.FloatField(blank=True, null=True)
+    promedio_reprobados_laboratorio = models.FloatField(blank=True, null=True)
+    promedio_teoria = models.FloatField(blank=True, null=True)
+    promedio_aprobados_teoria = models.FloatField(blank=True, null=True)
+    promedio_reprobados_teoria = models.FloatField(blank=True, null=True)
+    aprobados_laboratorio = models.IntegerField(blank=True, null=True)
+    reprobados_laboratorio = models.IntegerField(blank=True, null=True)
+    aprobados_teoria = models.IntegerField(blank=True, null=True)
+    reprobados_teoria = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
@@ -209,6 +219,16 @@ class RendimientoCarrera(models.Model):
     cantidad_reprobados = models.IntegerField(blank=True, null=True)
     cantidad_convalidados = models.IntegerField(blank=True, null=True)
     inscritos = models.IntegerField(blank=True, null=True)
+    promedio_laboratorio = models.FloatField(blank=True, null=True)
+    promedio_aprobados_laboratorio = models.FloatField(blank=True, null=True)
+    promedio_reprobados_laboratorio = models.FloatField(blank=True, null=True)
+    promedio_teoria = models.FloatField(blank=True, null=True)
+    promedio_aprobados_teoria = models.FloatField(blank=True, null=True)
+    promedio_reprobados_teoria = models.FloatField(blank=True, null=True)
+    aprobados_laboratorio = models.IntegerField(blank=True, null=True)
+    reprobados_laboratorio = models.IntegerField(blank=True, null=True)
+    aprobados_teoria = models.IntegerField(blank=True, null=True)
+    reprobados_teoria = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
@@ -227,6 +247,16 @@ class RendimientoTipoCarrera(models.Model):
     cantidad_reprobados = models.IntegerField(blank=True, null=True)
     cantidad_convalidados = models.IntegerField(blank=True, null=True)
     inscritos = models.IntegerField(blank=True, null=True)
+    promedio_laboratorio = models.FloatField(blank=True, null=True)
+    promedio_aprobados_laboratorio = models.FloatField(blank=True, null=True)
+    promedio_reprobados_laboratorio = models.FloatField(blank=True, null=True)
+    promedio_teoria = models.FloatField(blank=True, null=True)
+    promedio_aprobados_teoria = models.FloatField(blank=True, null=True)
+    promedio_reprobados_teoria = models.FloatField(blank=True, null=True)
+    aprobados_laboratorio = models.IntegerField(blank=True, null=True)
+    reprobados_laboratorio = models.IntegerField(blank=True, null=True)
+    aprobados_teoria = models.IntegerField(blank=True, null=True)
+    reprobados_teoria = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False

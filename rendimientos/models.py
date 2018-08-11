@@ -88,6 +88,7 @@ class Profesor(models.Model):
 # Se agrega el primary_key=True a uno de los campos de la tabla
 # carrera, para que el serializador funcione
 # sin embargo, las tablas solo tienen la restricción UNIQUE TOGETHER
+
 class RendimientoAsignatura(models.Model):
     codigo_asignatura = models.IntegerField(primary_key=True)
     semestre = models.IntegerField()
@@ -95,15 +96,24 @@ class RendimientoAsignatura(models.Model):
     promedio = models.FloatField(blank=True, null=True)
     promedio_aprobados = models.FloatField(blank=True, null=True)
     promedio_reprobados = models.FloatField(blank=True, null=True)
-    cantidad_aprobados = models.IntegerField(blank=True, null=True)
-    cantidad_reprobados = models.IntegerField(blank=True, null=True)
-    cantidad_convalidados = models.IntegerField(blank=True, null=True)
+    aprobados = models.IntegerField(blank=True, null=True)
+    reprobados = models.IntegerField(blank=True, null=True)
+    convalidados = models.IntegerField(blank=True, null=True)
     inscritos = models.IntegerField(blank=True, null=True)
+    promedio_laboratorio = models.FloatField(blank=True, null=True)
+    promedio_aprobados_laboratorio = models.FloatField(blank=True, null=True)
+    promedio_reprobados_laboratorio = models.FloatField(blank=True, null=True)
+    promedio_teoria = models.FloatField(blank=True, null=True)
+    promedio_aprobados_teoria = models.FloatField(blank=True, null=True)
+    promedio_reprobados_teoria = models.FloatField(blank=True, null=True)
+    aprobados_laboratorio = models.IntegerField(blank=True, null=True)
+    reprobados_laboratorio = models.IntegerField(blank=True, null=True)
+    aprobados_teoria = models.IntegerField(blank=True, null=True)
+    reprobados_teoria = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'rendimiento_asignatura'
-        unique_together = (('codigo_asignatura', 'semestre', 'anio'),)
 
 
 class RendimientoCarrera(models.Model):
@@ -114,34 +124,53 @@ class RendimientoCarrera(models.Model):
     promedio = models.FloatField(blank=True, null=True)
     promedio_aprobados = models.FloatField(blank=True, null=True)
     promedio_reprobados = models.FloatField(blank=True, null=True)
-    cantidad_aprobados = models.IntegerField(blank=True, null=True)
-    cantidad_reprobados = models.IntegerField(blank=True, null=True)
-    cantidad_convalidados = models.IntegerField(blank=True, null=True)
+    aprobados = models.IntegerField(blank=True, null=True)
+    reprobados = models.IntegerField(blank=True, null=True)
+    convalidados = models.IntegerField(blank=True, null=True)
     inscritos = models.IntegerField(blank=True, null=True)
+    promedio_laboratorio = models.FloatField(blank=True, null=True)
+    promedio_aprobados_laboratorio = models.FloatField(blank=True, null=True)
+    promedio_reprobados_laboratorio = models.FloatField(blank=True, null=True)
+    promedio_teoria = models.FloatField(blank=True, null=True)
+    promedio_aprobados_teoria = models.FloatField(blank=True, null=True)
+    promedio_reprobados_teoria = models.FloatField(blank=True, null=True)
+    aprobados_laboratorio = models.IntegerField(blank=True, null=True)
+    reprobados_laboratorio = models.IntegerField(blank=True, null=True)
+    aprobados_teoria = models.IntegerField(blank=True, null=True)
+    reprobados_teoria = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'rendimiento_carrera'
-        unique_together = (('codigo_carrera', 'codigo_asignatura', 'semestre', 'anio'),)
 
 
 class RendimientoTipoCarrera(models.Model):
-    codigo_tipo_carrera = models.IntegerField(primary_key=True)
-    codigo_asignatura = models.IntegerField()
+    codigo_tipo_carrera = models.IntegerField()
+    codigo_asignatura = models.IntegerField(primary_key=True)
     semestre = models.IntegerField()
     anio = models.IntegerField()
     promedio = models.FloatField(blank=True, null=True)
     promedio_aprobados = models.FloatField(blank=True, null=True)
     promedio_reprobados = models.FloatField(blank=True, null=True)
-    cantidad_aprobados = models.IntegerField(blank=True, null=True)
-    cantidad_reprobados = models.IntegerField(blank=True, null=True)
-    cantidad_convalidados = models.IntegerField(blank=True, null=True)
+    aprobados = models.IntegerField(blank=True, null=True)
+    reprobados = models.IntegerField(blank=True, null=True)
+    convalidados = models.IntegerField(blank=True, null=True)
     inscritos = models.IntegerField(blank=True, null=True)
+    promedio_laboratorio = models.FloatField(blank=True, null=True)
+    promedio_aprobados_laboratorio = models.FloatField(blank=True, null=True)
+    promedio_reprobados_laboratorio = models.FloatField(blank=True, null=True)
+    promedio_teoria = models.FloatField(blank=True, null=True)
+    promedio_aprobados_teoria = models.FloatField(blank=True, null=True)
+    promedio_reprobados_teoria = models.FloatField(blank=True, null=True)
+    aprobados_laboratorio = models.IntegerField(blank=True, null=True)
+    reprobados_laboratorio = models.IntegerField(blank=True, null=True)
+    aprobados_teoria = models.IntegerField(blank=True, null=True)
+    reprobados_teoria = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'rendimiento_tipo_carrera'
-        unique_together = (('codigo_tipo_carrera', 'codigo_asignatura', 'semestre', 'anio'),)
+
 
 class Seccion(models.Model):
     codigo_asignatura = models.ForeignKey(Asignatura, models.DO_NOTHING, db_column='codigo_asignatura', blank=True, null=True)

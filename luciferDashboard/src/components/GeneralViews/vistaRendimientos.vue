@@ -1,9 +1,9 @@
 <template>
-     <div>
+     <div v-if='carrera != null && asignatura !=null'>
 
         <b-container fluid class="option-bar">
             <b-row>
-                <b-col cols = "5"> 
+                <b-col cols = "8"> 
                     <h2 class="text-primary">{{carrera.nombre}} </h2>
 
                 </b-col>
@@ -31,25 +31,77 @@
 
                 </b-col>
             </b-row>
-            <b-row>
-                <b-col>
-
-                    <app-graficos v-if='carrera != null && valores != null'
-                    v-bind:carrera="carrera"
-                    v-bind:valores="valores">
-                    </app-graficos>
-                    <h1 v-else> AQUI DEBERÍA IR EL GRÁFICO, PERO ALGO SALIÓ MAL</h1>
-                </b-col>
-                <b-col>
-                    <app-tabla v-if='carrera!=null && valores!=null'
-                    v-bind:carrera="carrera"
-                    v-bind:valores="valores">
-                    </app-tabla>
-
-                    
-                </b-col>
-            </b-row>
         </b-container>
+     <div>
+         <b-tabs>
+            <b-tab title="General" active>
+                <b-row>
+                    <b-col>
+
+                        <app-graficos v-if='carrera != null && valores != null'
+                        v-bind:carrera="carrera"
+                        v-bind:valores="valores">
+                        </app-graficos>
+                        <h1 v-else> AQUI DEBERÍA IR EL GRÁFICO, PERO ALGO SALIÓ MAL</h1>
+                    </b-col>
+                    <b-col>
+                        <app-tabla v-if='carrera!=null && valores!=null'
+                        v-bind:carrera="carrera"
+                        v-bind:valores="valores">
+                        </app-tabla>
+
+                        
+                    </b-col>
+                </b-row>
+            </b-tab>
+            <b-tab title="Teoría" 
+            v-on:click="obtenerRendimientosTeoria()" 
+             v-bind:disabled="asignatura.teoria == 0">
+                <b-row>
+                    <b-col>
+                        <!--
+                        <app-graficos v-if='carrera != null && valores_teoria != null'
+                        v-bind:carrera="carrera"
+                        v-bind:valores="valores_teoria">
+                        </app-graficos>
+                        <h1 v-else> AQUI DEBERÍA IR EL GRÁFICO, PERO ALGO SALIÓ MAL</h1>
+                        -->
+                    </b-col>
+                    <b-col>
+                        <app-tabla v-if='carrera!=null && valores_teoria!=null'
+                        v-bind:carrera="carrera"
+                        v-bind:valores="valores_teoria">
+                        </app-tabla>
+
+                        
+                    </b-col>
+                </b-row>
+            </b-tab>
+            <b-tab title="Laboratorio" 
+            v-on:click="obtenerRendimientosLaboratorio()"
+            v-bind:disabled="asignatura.laboratorio == 0">
+                <b-row>
+                    <b-col>
+                        <!--
+                        <app-graficos v-if='carrera != null && valores_laboratorio != null'
+                        v-bind:carrera="carrera"
+                        v-bind:valores="valores_laboratorio">
+                        </app-graficos>
+                        <h1 v-else> AQUI DEBERÍA IR EL GRÁFICO, PERO ALGO SALIÓ MAL</h1>
+                        -->
+                    </b-col>
+                    <b-col>
+                        <app-tabla v-if='carrera!=null && valores_laboratorio!=null'
+                        v-bind:carrera="carrera"
+                        v-bind:valores="valores_laboratorio">
+                        </app-tabla>
+
+                        
+                    </b-col>
+                </b-row>
+            </b-tab>
+        </b-tabs>
+        </div>
     </div>
 </template>
 
@@ -83,7 +135,13 @@ export default {
             
             valores : null,
 
+            valores_teoria : null,
+
+            valores_laboratorio : null,
+
             carrera : null,
+
+            asignatura: null,
 
             filtrado : false,
 
@@ -122,44 +180,8 @@ export default {
                 }
             })
         },
-        obtenerDatos: function(){
-            
-            var urlListado = this.apiUrl  + '/carrera/';
-            var urlCarrera = urlListado + this.codigo_carrera;
 
-            this.axios.get(urlCarrera).then((response) => {
-
-                this.carrera = response.data;
-
-            }).catch(function(error){
-                console.log(error);
-            });
-
-            this.axios.get(urlListado).then((response)=> {
-                
-                this.lista_de_carreras = response.data;
-                console.log("OBTENGO LISTADO")
-            }).catch(function(error){
-                console.log(error);
-            });
-
-            var urlRendimientos = this.apiUrl  + '/rendimiento-carrera/?' + 
-                'carr='+ this.codigo_asignatura + 
-                '&asign=' + this.codigo_asignatura;
-
-            this.axios.get(urlRendimientos).then((response) => {
-
-                this.valores = response.data
-                
-                                
-            })
-            .catch(function(error){
-                console.log(error);
-            });
-
-
-        },
-        obtenerCosas : function(){
+        obtenerDatos : function(){
             let _this = this
             var urlListado = this.apiUrl  + '/carrera/';
             var urlCarrera = urlListado + this.codigo_carrera;
@@ -178,13 +200,80 @@ export default {
                 _this.valores = rendimientos.data;
             }));
 
-        }
+        },
+         obtenerRendimientosTeoria: function(){
+
+        
+            let _this = this
+            var urlRendimientos = this.apiUrl  + '/rendimiento-carrera-teoria/?' + 
+                'carr='+ this.codigo_carrera + 
+                '&asig=' + this.codigo_asignatura;
+
+
+            this.axios.get(urlRendimientos).then((response) => {
+
+                _this.valores_teoria = response.data;
+
+            }).catch(function(error){
+                console.log(error);
+            });
+        },
+        
+        
+        obtenerRendimientosLaboratorio: function(){
+
+        
+            let _this = this
+            var urlRendimientos = this.apiUrl  + '/rendimiento-carrera-laboratorio/?' + 
+                'carr='+ this.codigo_carrera + 
+                '&asig=' + this.codigo_asignatura;
+
+
+            this.axios.get(urlRendimientos).then((response) => {
+
+                _this.valores_laboratorio = response.data;
+
+            }).catch(function(error){
+                console.log(error);
+            });
+        },
+
+        obtenerAsignatura: function(){
+
+            let _this = this
+            var url = this.apiUrl  + '/asignatura/' +  this.codigo_asignatura;
+
+            this.axios.get(url).then((response) => {
+
+                _this.asignatura = response.data;
+
+            }).catch(function(error){
+                console.log(error);
+            });
+        },
+
  
+    },
+    computed : {
+        
+       tieneLaboratorio : function(){
+           if (this.asignatura.laboratorio == 0) {
+               return false
+           }
+           return true
+       }
+  
+
     },
     watch : {
         '$route' () {
             this.codigo_carrera = this.$route.params.codigo_carrera,
-            this.obtenerCosas()
+            this.valores_teoria = null
+            this.valores_laboratorio = null
+            this.valores = null
+            this.asignatura =null
+            this.obtenerDatos()
+
             this.filtrado = false
 
         }
@@ -193,11 +282,8 @@ export default {
 
     created() {
 
-
-        this.obtenerCosas();
-
-
-
+        this.obtenerDatos();
+        this.obtenerAsignatura();
     },
 
 

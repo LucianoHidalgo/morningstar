@@ -1,6 +1,7 @@
 <template>
 <div>
-    <div>
+
+    <div >
     <canvas id="graficoRendimiento"></canvas>
     </div>
 
@@ -33,7 +34,7 @@ export default {
     methods:{
 
         asignarValores : function(etiquetas, datos){
-
+            
             this.chartData = {
                 type: 'line',
                 data: {
@@ -90,7 +91,7 @@ export default {
             var etiquetas = [];
             var datos = [];
             this.valores.forEach(function(element) {
-
+                
                 if (element.promedio != null) {
                     
                     var key = element.anio + "-" + element.semestre;
@@ -99,6 +100,7 @@ export default {
 
                 }
             });
+            
             this.asignarValores(etiquetas,datos);
             
 
@@ -107,7 +109,8 @@ export default {
         createChart: function(chartId, chartData) {
 
 
-            const ctx = document.getElementById(chartId);
+            var ctx = document.getElementById(chartId);
+            
             this.myChart = new Chart(ctx, {
             type: chartData.type,
             data: chartData.data,
@@ -117,7 +120,7 @@ export default {
   
         }
     },
-
+    /*
     watch : {
         valores : function(){
             this.obtenerDataSets()
@@ -127,6 +130,7 @@ export default {
             
         }
     },
+*/
     created(){
 
         this.obtenerDataSets()

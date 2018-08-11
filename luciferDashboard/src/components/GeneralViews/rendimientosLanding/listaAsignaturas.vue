@@ -9,7 +9,7 @@
        <b-list-group-item 
         button v-for="asignaturaMostrada in filtrarAsignatura" 
         v-on:click="asignarAsignatura(asignaturaMostrada)">
-           {{asignaturaMostrada.nombre}}
+           {{asignaturaMostrada.codigo}} - {{asignaturaMostrada.nombre}}
         </b-list-group-item>
     </b-list-group>
 

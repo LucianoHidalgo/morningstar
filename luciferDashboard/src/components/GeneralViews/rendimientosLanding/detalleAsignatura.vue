@@ -1,6 +1,7 @@
 <template>
 <div >
-<b-row>
+    <b-container fluid>
+        <b-row>
         <b-col>
         <b-jumbotron  class="h-100 d-inline-block" 
             v-bind:header="asignatura.nombre" 
@@ -42,6 +43,7 @@
             v-bind:asignatura="asignatura"></app-lista-carreras>
         </b-col>
     </b-row>
+    </b-container>
 </div>
 
 

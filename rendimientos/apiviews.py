@@ -64,5 +64,32 @@ class RendimientoCarreraViewSet(viewsets.ReadOnlyModelViewSet):
         return queryset_list
 
 
+class RendimientoCarreraTeoriaViewSet(viewsets.ReadOnlyModelViewSet):
+
+    serializer_class = carSerializers.RendimientoCarreraTeoriaSerializer
+
+    def get_queryset(self, *args, **kwargs):
+        queryset_list = RendimientoCarrera.objects.all()
+        codigo_carrera = self.request.query_params.get('carr', None)
+        codigo_asignatura = self.request.query_params.get('asig', None)
+        if codigo_carrera != None :
+            queryset_list = queryset_list.filter(codigo_carrera=codigo_carrera)
+        if codigo_asignatura != None :
+            queryset_list = queryset_list.filter(codigo_asignatura=codigo_asignatura)
+        return queryset_list
+
+class RendimientoCarreraLaboratorioViewSet(viewsets.ReadOnlyModelViewSet):
+
+    serializer_class = carSerializers.RendimientoCarreraLaboratorioSerializer
+
+    def get_queryset(self, *args, **kwargs):
+        queryset_list = RendimientoCarrera.objects.all()
+        codigo_carrera = self.request.query_params.get('carr', None)
+        codigo_asignatura = self.request.query_params.get('asig', None)
+        if codigo_carrera != None :
+            queryset_list = queryset_list.filter(codigo_carrera=codigo_carrera)
+        if codigo_asignatura != None :
+            queryset_list = queryset_list.filter(codigo_asignatura=codigo_asignatura)
+        return queryset_list
 
 

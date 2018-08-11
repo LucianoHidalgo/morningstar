@@ -6,7 +6,7 @@
        <b-list-group-item button 
        v-for="carrera in lista_de_carreras"
        v-on:click="asignarCarrera(carrera)">
-           {{carrera.nombre}}
+           {{carrera.codigo}} - {{carrera.nombre}}
         </b-list-group-item>
     </b-list-group>
 
