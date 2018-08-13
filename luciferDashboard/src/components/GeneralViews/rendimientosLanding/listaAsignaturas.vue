@@ -48,7 +48,7 @@ export default {
     computed : {
         filtrarAsignatura: function(){
             return this.lista_de_asignaturas.filter((asignatura) => {
-                return asignatura.nombre.match(this.search);
+                return asignatura.nombre.match(this.search.toUpperCase());
             });
         },
 

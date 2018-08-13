@@ -20,33 +20,125 @@ class Asignatura(models.Model):
         managed = False
         db_table = 'asignatura'
 
-class TipoCarrera(models.Model):
 
-    nombre = models.CharField(max_length=30)
-    nombre_corto = models.CharField(max_length=15)
+class AuthGroup(models.Model):
+    name = models.CharField(unique=True, max_length=80)
 
     class Meta:
         managed = False
-        db_table = 'tipo_carrera'
+        db_table = 'auth_group'
+
+
+class AuthGroupPermissions(models.Model):
+    group = models.ForeignKey(AuthGroup, models.DO_NOTHING)
+    permission = models.ForeignKey('AuthPermission', models.DO_NOTHING)
+
+    class Meta:
+        managed = False
+        db_table = 'auth_group_permissions'
+        unique_together = (('group', 'permission'),)
+
+
+class AuthPermission(models.Model):
+    name = models.CharField(max_length=255)
+    content_type = models.ForeignKey('DjangoContentType', models.DO_NOTHING)
+    codename = models.CharField(max_length=100)
+
+    class Meta:
+        managed = False
+        db_table = 'auth_permission'
+        unique_together = (('content_type', 'codename'),)
+
+
+class AuthUser(models.Model):
+    password = models.CharField(max_length=128)
+    last_login = models.DateTimeField(blank=True, null=True)
+    is_superuser = models.BooleanField()
+    username = models.CharField(unique=True, max_length=150)
+    first_name = models.CharField(max_length=30)
+    last_name = models.CharField(max_length=150)
+    email = models.CharField(max_length=254)
+    is_staff = models.BooleanField()
+    is_active = models.BooleanField()
+    date_joined = models.DateTimeField()
+
+    class Meta:
+        managed = False
+        db_table = 'auth_user'
+
+
+class AuthUserGroups(models.Model):
+    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
+    group = models.ForeignKey(AuthGroup, models.DO_NOTHING)
+
+    class Meta:
+        managed = False
+        db_table = 'auth_user_groups'
+        unique_together = (('user', 'group'),)
+
+
+class AuthUserUserPermissions(models.Model):
+    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
+    permission = models.ForeignKey(AuthPermission, models.DO_NOTHING)
+
+    class Meta:
+        managed = False
+        db_table = 'auth_user_user_permissions'
+        unique_together = (('user', 'permission'),)
+
 
 class Carrera(models.Model):
     codigo = models.IntegerField(primary_key=True)
     nombre = models.CharField(max_length=100)
-    id_tipo = models.ForeignKey(TipoCarrera, models.DO_NOTHING, db_column='id_tipo', blank=True, null=True)
+    id_tipo = models.ForeignKey('TipoCarrera', models.DO_NOTHING, db_column='id_tipo', blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'carrera'
 
 
-class CarreraAsignatura(models.Model):
-    codigo_carrera = models.ForeignKey(Carrera, models.DO_NOTHING, db_column='codigo_carrera', primary_key=True)
-    codigo_asignatura = models.ForeignKey(Asignatura, models.DO_NOTHING, db_column='codigo_asignatura')
+class DjangoAdminLog(models.Model):
+    action_time = models.DateTimeField()
+    object_id = models.TextField(blank=True, null=True)
+    object_repr = models.CharField(max_length=200)
+    action_flag = models.SmallIntegerField()
+    change_message = models.TextField()
+    content_type = models.ForeignKey('DjangoContentType', models.DO_NOTHING, blank=True, null=True)
+    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
 
     class Meta:
         managed = False
-        db_table = 'carrera_asignatura'
-        unique_together = (('codigo_carrera', 'codigo_asignatura'),)
+        db_table = 'django_admin_log'
+
+
+class DjangoContentType(models.Model):
+    app_label = models.CharField(max_length=100)
+    model = models.CharField(max_length=100)
+
+    class Meta:
+        managed = False
+        db_table = 'django_content_type'
+        unique_together = (('app_label', 'model'),)
+
+
+class DjangoMigrations(models.Model):
+    app = models.CharField(max_length=255)
+    name = models.CharField(max_length=255)
+    applied = models.DateTimeField()
+
+    class Meta:
+        managed = False
+        db_table = 'django_migrations'
+
+
+class DjangoSession(models.Model):
+    session_key = models.CharField(primary_key=True, max_length=40)
+    session_data = models.TextField()
+    expire_date = models.DateTimeField()
+
+    class Meta:
+        managed = False
+        db_table = 'django_session'
 
 
 class Estudiante(models.Model):
@@ -61,6 +153,7 @@ class Estudiante(models.Model):
         managed = False
         db_table = 'estudiante'
 
+
 class Malla(models.Model):
     codigo_carrera = models.ForeignKey(Carrera, models.DO_NOTHING, db_column='codigo_carrera')
     carrera_mencion = models.IntegerField()
@@ -71,6 +164,7 @@ class Malla(models.Model):
     class Meta:
         managed = False
         db_table = 'malla'
+
 
 class Profesor(models.Model):
     rut = models.CharField(primary_key=True, max_length=10)
@@ -85,11 +179,9 @@ class Profesor(models.Model):
         managed = False
         db_table = 'profesor'
 
-# Se agrega el primary_key=True a uno de los campos de la tabla
-# carrera, para que el serializador funcione
-# sin embargo, las tablas solo tienen la restricción UNIQUE TOGETHER
+
 class RendimientoAsignatura(models.Model):
-    codigo_asignatura = models.IntegerField(primary_key=True)
+    codigo_asignatura = models.IntegerField()
     semestre = models.IntegerField()
     anio = models.IntegerField()
     promedio = models.FloatField(blank=True, null=True)
@@ -122,7 +214,7 @@ class RendimientoAsignatura(models.Model):
 
 class RendimientoCarrera(models.Model):
     codigo_carrera = models.IntegerField()
-    codigo_asignatura = models.IntegerField(primary_key=True)
+    codigo_asignatura = models.IntegerField()
     semestre = models.IntegerField()
     anio = models.IntegerField()
     promedio = models.FloatField(blank=True, null=True)
@@ -155,7 +247,7 @@ class RendimientoCarrera(models.Model):
 
 class RendimientoTipoCarrera(models.Model):
     codigo_tipo_carrera = models.IntegerField()
-    codigo_asignatura = models.IntegerField(primary_key=True)
+    codigo_asignatura = models.IntegerField()
     semestre = models.IntegerField()
     anio = models.IntegerField()
     promedio = models.FloatField(blank=True, null=True)
@@ -185,6 +277,7 @@ class RendimientoTipoCarrera(models.Model):
         managed = False
         db_table = 'rendimiento_tipo_carrera'
 
+
 class Seccion(models.Model):
     codigo_asignatura = models.ForeignKey(Asignatura, models.DO_NOTHING, db_column='codigo_asignatura', blank=True, null=True)
     semestre = models.IntegerField()
@@ -202,9 +295,9 @@ class Seccion(models.Model):
 class SeccionEstudiante(models.Model):
     id_seccion = models.ForeignKey(Seccion, models.DO_NOTHING, db_column='id_seccion', primary_key=True)
     rut_estudiante = models.ForeignKey(Estudiante, models.DO_NOTHING, db_column='rut_estudiante')
-    nota_teoria = models.DecimalField(max_digits=10, decimal_places=10, blank=True, null=True)
-    nota_laboratorio = models.DecimalField(max_digits=10, decimal_places=10, blank=True, null=True)
-    nota_final = models.DecimalField(max_digits=10, decimal_places=10, blank=True, null=True)
+    nota_teoria = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    nota_laboratorio = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    nota_final = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
     situacion_final = models.CharField(max_length=10, blank=True, null=True)
 
     class Meta:
@@ -226,25 +319,10 @@ class SeccionProfesor(models.Model):
         unique_together = (('id_seccion', 'rut_profesor'),)
 
 
-
-'''
-oldmodel
-class RendimientoCarrera(models.Model):
-    codigo_carrera = models.IntegerField()
-    codigo_asignatura = models.IntegerField(primary_key=True)
-    semestre = models.IntegerField()
-    anio = models.IntegerField()
-    semestre_etiqueta = models.CharField(max_length=20, blank=True, null=True)
-    promedio = models.DecimalField(max_digits=10, decimal_places=10, blank=True, null=True)
-    promedio_aprobados = models.DecimalField(max_digits=10, decimal_places=10, blank=True, null=True)
-    promedio_reprobados = models.DecimalField(max_digits=10, decimal_places=10, blank=True, null=True)
-    aprobados = models.IntegerField(blank=True, null=True)
-    reprobados = models.IntegerField(blank=True, null=True)
-    inscritos = models.IntegerField(blank=True, null=True)
+class TipoCarrera(models.Model):
+    nombre = models.CharField(max_length=30)
+    nombre_corto = models.CharField(max_length=15)
 
     class Meta:
         managed = False
-        db_table = 'rendimiento_carrera'
-        unique_together = (('codigo_carrera', 'codigo_asignatura', 'semestre', 'anio'),)
-
-'''
+        db_table = 'tipo_carrera'

@@ -7,9 +7,13 @@
                     <h2 class="text-primary">{{carrera.nombre}} </h2>
 
                 </b-col>
-                <b-col></b-col>
+                <b-col>
+                    <h3 class="text-secondary">{{asignatura.nombre}} </h3>
+                </b-col>
+
                 <b-col >
                     <b-button-group>
+                        <!--
                         <b-button v-if="!filtrado"
                             variant="primary" 
                             v-on:click="filtrar">
@@ -21,7 +25,8 @@
                             Quitar Filtro
                         
                         </b-button>
-                            <b-button  
+                        -->
+                        <b-button  
                             variant="secondary"
                             v-on:click="volverAtras">
                                 Volver atrás
@@ -33,14 +38,16 @@
             </b-row>
         </b-container>
      <div>
+         <app-totales v-bind:valores="valores"></app-totales>
          <b-tabs>
             <b-tab title="General" active>
                 <b-row>
                     <b-col>
 
-                        <app-graficos v-if='carrera != null && valores != null'
+                        <app-graficos v-if='carrera != null && valores != null && rendimiento_asignatura != null'
                         v-bind:carrera="carrera"
-                        v-bind:valores="valores">
+                        v-bind:valores="valores"
+                        v-bind:rendimiento_asignatura ="rendimiento_asignatura">
                         </app-graficos>
                         <h1 v-else> AQUI DEBERÍA IR EL GRÁFICO, PERO ALGO SALIÓ MAL</h1>
 
@@ -55,16 +62,18 @@
                     </b-col>
                 </b-row>
             </b-tab>
+
             <b-tab title="Teoría" 
             v-on:click="obtenerRendimientosTeoria()" 
              v-bind:disabled="asignatura.teoria == 0">
-                <b-row  v-if='carrera != null && valores_teoria != null'>
+                <b-row  v-if='carrera != null && valores_teoria != null && rendimiento_asignatura_teoria != null'>
 
                     <b-col>
 
                         <app-graficos
                         v-bind:carrera="carrera"
-                        v-bind:valores="valores_teoria">
+                        v-bind:valores="valores_teoria"
+                        v-bind:rendimiento_asignatura ="rendimiento_asignatura_teoria">
                         </app-graficos>
 
 
@@ -84,12 +93,13 @@
             v-on:click="obtenerRendimientosLaboratorio()"
             v-bind:disabled="asignatura.laboratorio == 0">
 
-                <b-row v-if='carrera != null && valores_laboratorio != null'>
+                <b-row v-if='carrera != null && valores_laboratorio != null && rendimiento_asignatura_laboratorio != null'>
                     <b-col>
 
                         <app-graficos 
                         v-bind:carrera="carrera"
-                        v-bind:valores="valores_laboratorio">
+                        v-bind:valores="valores_laboratorio"
+                        v-bind:rendimiento_asignatura="rendimiento_asignatura_laboratorio">
                         </app-graficos>
                         
 
@@ -105,6 +115,7 @@
                 </b-row>
   
             </b-tab>
+
         </b-tabs>
         </div>
     </div>
@@ -116,6 +127,7 @@
 import listaCarreras from './vistaRendimientos/listaCarreras.vue';
 import tablaRendimientos from './vistaRendimientos/tablaRendimientos.vue';
 import graficosRendimiento from './vistaRendimientos/graficosRendimiento.vue';
+import totales from './vistaRendimientos/totales.vue';
 
 export default {
 
@@ -124,6 +136,7 @@ export default {
         'app-lista-carreras': listaCarreras,
         'app-graficos': graficosRendimiento,
         'app-tabla' : tablaRendimientos,
+        'app-totales' : totales,
 
     },
 
@@ -143,6 +156,12 @@ export default {
             valores_teoria : null,
 
             valores_laboratorio : null,
+
+            rendimiento_asignatura : null,
+
+            rendimiento_asignatura_teoria: null,
+
+            rendimiento_asignatura_laboratorio : null,
 
             carrera : null,
 
@@ -257,6 +276,51 @@ export default {
             });
         },
 
+        obtenerRendimientosAsignatura : function() {
+            let _this = this 
+            var url = this.apiUrl + '/rendimiento-asignatura/?asig=' + this.$route.params.codigo_asignatura
+            this.axios.get(url).then((response) => {
+
+                _this.rendimiento_asignatura = response.data;
+
+            }).catch(function(error){
+                console.log(error);
+            });
+        },
+
+        obtenerRendimientosAsignaturaTeoria : function() {
+            let _this = this 
+            var url = this.apiUrl + '/rendimiento-asignatura-teoria/?asig=' + this.$route.params.codigo_asignatura
+            this.axios.get(url).then((response) => {
+
+                _this.rendimiento_asignatura_teoria = response.data;
+
+            }).catch(function(error){
+                console.log(error);
+            });
+        },
+
+        obtenerRendimientosAsignaturaLaboratorio : function() {
+            let _this = this 
+            var url = this.apiUrl + '/rendimiento-asignatura-laboratorio/?asig=' + this.$route.params.codigo_asignatura
+            this.axios.get(url).then((response) => {
+
+                _this.rendimiento_asignatura_laboratorio = response.data;
+
+            }).catch(function(error){
+                console.log(error);
+            });
+        },
+
+        obtenerDatosAsignatura : function(){
+            this.obtenerAsignatura()
+            this.obtenerRendimientosAsignatura()
+            this.obtenerRendimientosAsignaturaTeoria()
+            this.obtenerRendimientosAsignaturaLaboratorio()
+        }
+
+        
+
  
     },
     computed : {
@@ -288,7 +352,7 @@ export default {
     created() {
 
         this.obtenerDatos();
-        this.obtenerAsignatura();
+        this.obtenerDatosAsignatura();
     },
 
 

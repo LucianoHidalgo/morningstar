@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from rendimientos.models import Carrera, TipoCarrera, RendimientoCarrera, Asignatura
+from rendimientos.models import Carrera, TipoCarrera, RendimientoCarrera, Asignatura, RendimientoAsignatura
 
 
 class TipoCarreraSerializer(serializers.ModelSerializer):
@@ -40,6 +40,41 @@ class AsignaturasRelacionadasSerializer(serializers.ModelSerializer):
     class Meta :
         model = Asignatura
         fields = '__all__'
+
+class RendimientoAsignaturaSerializer(serializers.Serializer):
+    codigo_asignatura = serializers.IntegerField()
+    semestre = serializers.IntegerField()
+    anio = serializers.IntegerField()
+    promedio = serializers.FloatField(max_value=None, min_value=None)
+    promedio_aprobados = serializers.FloatField(max_value=None, min_value=None)
+    promedio_reprobados = serializers.FloatField(max_value=None, min_value=None)
+    aprobados = serializers.IntegerField(allow_null=True)
+    reprobados = serializers.IntegerField(allow_null=True)
+    convalidados = serializers.IntegerField(allow_null=True)
+    inscritos = serializers.IntegerField(allow_null=True)
+
+
+class RendimientoAsignaturaTeoriaSerializer(serializers.Serializer):
+    codigo_asignatura = serializers.IntegerField()
+    semestre = serializers.IntegerField()
+    anio = serializers.IntegerField()
+    promedio = serializers.FloatField(source='promedio_teoria',max_value=None, min_value=None)
+    promedio_aprobados = serializers.FloatField(source='promedio_aprobados_teoria', max_value=None, min_value=None)
+    promedio_reprobados = serializers.FloatField(source='promedio_reprobados_teoria', max_value=None, min_value=None)
+    aprobados = serializers.IntegerField(source='aprobados_teoria',allow_null=True)
+    reprobados = serializers.IntegerField(source='reprobados_teoria',allow_null=True)
+
+
+class RendimientoAsignaturaLaboratorioSerializer(serializers.Serializer):
+
+    codigo_asignatura = serializers.IntegerField()
+    semestre = serializers.IntegerField()
+    anio = serializers.IntegerField()
+    promedio = serializers.FloatField(source='promedio_laboratorio',max_value=None, min_value=None)
+    promedio_aprobados = serializers.FloatField(source='promedio_aprobados_laboratorio', max_value=None, min_value=None)
+    promedio_reprobados = serializers.FloatField(source='promedio_reprobados_laboratorio', max_value=None, min_value=None)
+    aprobados = serializers.IntegerField(source='aprobados_laboratorio',allow_null=True)
+    reprobados = serializers.IntegerField(source='reprobados_laboratorio',allow_null=True)
 
 
 class RendimientoCarreraSerializer(serializers.Serializer):

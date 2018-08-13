@@ -77,7 +77,12 @@ export default {
                     nuevoElemento['semestre'] = element.semestre;
                     nuevoElemento['promedio'] = element.promedio.toFixed(2);
                     nuevoElemento['aprobados'] = element.aprobados;
-                    nuevoElemento['reprobados'] = element.reprobados;
+                    if (element.reprobados == null ) {
+                        nuevoElemento['reprobados'] = 0;
+                    } 
+                    else {
+                        nuevoElemento['reprobados'] = element.reprobados;
+                    }
                     valoresTabla.push(nuevoElemento);
                 }
                 

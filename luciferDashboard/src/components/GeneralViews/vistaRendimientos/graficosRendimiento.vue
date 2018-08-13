@@ -1,7 +1,7 @@
 <template>
 <div>
-    <p>{{data}}</p>
-     <line-chart :chart-data="datacollection" :options="options"></line-chart>
+
+     <line-chart :chart-data="datacollection" :height="250" :options="options"></line-chart>
     <!--<div >
     <canvas id="graficoRendimiento"></canvas>
 
@@ -26,7 +26,11 @@ export default {
             required : true
         },
 
+
         carrera : {
+            required : true
+        },
+        rendimiento_asignatura : {
             required : true
         }
     },
@@ -34,7 +38,7 @@ export default {
     data: function(){
         return{
 
-
+               
                 data : null,
                 labels : null,
                 datacollection : null,
@@ -96,26 +100,56 @@ export default {
                 
 		    };
         }, */
+
+        
         asignarValores : function(etiquetas, datos, leyenda){
+
             this.datacollection = {
                 labels : etiquetas,
                 datasets : [
                     {
-                        label: leyenda,
+                        label: leyenda[0],
                         fill: false,
                         backgroundColor: '#002F6C',
                         borderColor: '#002F6C',
-                        data: datos
+                        data: datos[0]
+                    },
+                    {
+                        label: leyenda[1],
+                        fill: false,
+                        backgroundColor: '#EA7600',
+                        borderColor: '#EA7600',
+                        data: datos[1]   
                     }
                 ]
             }
         },
 
+        obtenerDataSetsAux(etiquetas){
+            let _this = this
+            var datos = [];
+            this.rendimiento_asignatura.forEach(function(element){
+                var etiquetaAux = element.anio + "-" + element.semestre;
+                etiquetas.forEach(function(etiqueta){
+                    if (etiquetaAux == etiqueta) {
+                        datos.push(element.promedio)
+                    }
+
+                });
+            });
+            return datos
+
+        },
+
 
         obtenerDataSets : function(){
+
             var etiquetas = [];
             var datos = [];
-            var leyenda = this.carrera.codigo
+            var leyenda = [this.carrera.codigo, 'general']
+
+            
+
             this.valores.forEach(function(element) {
                 
                 if (element.promedio != null) {
@@ -126,8 +160,10 @@ export default {
 
                 }
             });
+
+            var datos2 = this.obtenerDataSetsAux(etiquetas)
             
-            this.asignarValores(etiquetas, datos, leyenda)
+            this.asignarValores(etiquetas, [datos, datos2], leyenda)
             
 
         },
